@@ -12,7 +12,7 @@
 }
 ```
 
-## **GET /users**
+## **GET api/v1/users**
 
 Returns all users in the system.
 
@@ -36,7 +36,7 @@ Returns all users in the system.
 }
 ```
 
-## **GET /users/:id**
+## **GET api/v1/users/:id**
 
 Returns the specified user.
 
@@ -69,7 +69,7 @@ Returns the specified user.
     }
   ```
 
-## **POST /users**
+## **POST api/v1/users**
 
 Creates a new User and returns the new object.
 
@@ -91,7 +91,7 @@ Creates a new User and returns the new object.
 - **Code:** 200  
   **Content:** `{ <user_object> }`
 
-## **PATCH /users/:id**
+## **PATCH api/v1/users/:id**
 
 Updates fields on the specified user and returns the updated object.
 
@@ -101,7 +101,7 @@ Updates fields on the specified user and returns the updated object.
 
 ```
   {
-  	username: string,
+    username: string,
     email: string,
     password: string
   }
@@ -132,7 +132,7 @@ Updates fields on the specified user and returns the updated object.
     }
     ```
 
-## **DELETE /users/:id**
+## **DELETE api/v1/users/:id**
 
 ---
 
