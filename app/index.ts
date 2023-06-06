@@ -1,5 +1,5 @@
-import type { Request, Response } from 'express'
-import express = require('express')
+const express = require('express')
+const indexRouter = require('../config/routes/index')
 
 const app = express()
 const port = 3000
@@ -11,6 +11,4 @@ app.listen(port, () => {
   console.log('Press Ctrl-C to terminate\n')
 })
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Welcome' })
-})
+app.use('/', indexRouter)
