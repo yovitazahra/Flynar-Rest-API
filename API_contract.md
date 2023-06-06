@@ -7,6 +7,7 @@
   id: integer PRIMARY KEY
   username: string
   email: string
+  password: string
   created_at: datetime(iso 8601)
   updated_at: datetime(iso 8601)
 }
@@ -26,15 +27,16 @@ Returns all users in the system.
 - **Code:** 200  
   **Content:**
 
-```
-{
-  users: [
-           {<user_object>},
-           {<user_object>},
-           {<user_object>}
-         ]
-}
-```
+  ```
+  {
+    status: "success"
+    users: [
+            {<user_object>},
+            {<user_object>},
+            {<user_object>}
+          ]
+  }
+  ```
 
 ## **GET api/v1/users/:id**
 
@@ -49,7 +51,13 @@ Returns the specified user.
   Authorization: Bearer `<OAuth Token>`
 - **Success Response:**
 - **Code:** 200  
-  **Content:** `{ <user_object> }`
+  **Content:**
+  ```
+  {
+    status: "success",
+    data: [<user_object>]
+  }
+  ```
 - **Error Response:**
   - **Code:** 404  
     **Content:**
@@ -71,7 +79,7 @@ Returns the specified user.
 
 ## **POST api/v1/users**
 
-Creates a new User and returns the new object.
+Creates a new User and returns the OTP code .
 
 - **URL Params**  
   None
@@ -89,7 +97,50 @@ Creates a new User and returns the new object.
 
 - **Success Response:**
 - **Code:** 200  
-  **Content:** `{ <user_object> }`
+  **Content:**
+  ```
+  {
+    status: "success",
+    data: [<otp_code>]
+    message:  "tautan verifikasi telah dikirim"
+  }
+  ```
+
+## POST api/v1/users/otp
+
+Verif OTP code .
+
+- **URL Params**  
+  None
+- **Headers**  
+  Content-Type: application/json
+- **Data Params**
+
+```
+  {
+    otpCode : number
+  }
+```
+
+- **Success Response:**
+- **Code:** 200  
+  **Content:**
+  ```
+  {
+    status: "success",
+    data: [<user_object>]
+    message:  "Register Berhasil"
+  }
+  ```
+  **Error Response:**
+  - **Code:** 404  
+     **Content:**
+    ```
+    {
+    status: "failed",
+    message: "Maaf, kode otp salah"
+    }
+    ```
 
 ## **PATCH api/v1/users/:id**
 
@@ -163,5 +214,34 @@ Deletes the specified user.
     {
     status: "failed",
     message: "You are unauthorized to make this request."
+    }
+    ```
+
+---
+
+# Reset Password
+
+## **POST api/v1/users/resetpassword/:id**
+
+Reset password user
+
+- **URL Params**  
+  _Required:_ `id=[integer]`
+- **Data Params**
+  ```
+  {
+    newPassword: string
+  }
+  ```
+- **Headers**  
+  Content-Type: application/json  
+  Authorization: Bearer `<OAuth Token>`
+- **Success Response:**
+  - **Code:** 200  
+    **Content:**
+    ```
+    {
+    status: "Success",
+    message: "Reset Password Berhasil"
     }
     ```
