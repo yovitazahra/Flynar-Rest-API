@@ -4,7 +4,10 @@
     "commonjs": true,
     "es2021": true
   },
-  "extends": "standard-with-typescript",
+  "extends": [
+    "standard",
+    "standard-with-typescript"
+  ],
   "overrides": [
   ],
   "parserOptions": {
@@ -13,6 +16,7 @@
   },
   "rules": {
     "indent": ["error", 2],
-    "@typescript-eslint/indent": ["error", 2]
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-var-requires": 0
   }
 }
