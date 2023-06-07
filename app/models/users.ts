@@ -1,8 +1,8 @@
 'use strict'
 
-const { Model, SequelizeInit } = require('sequelize')
+const { Model } = require('sequelize')
 
-module.exports = (sequelize: typeof SequelizeInit, DataTypes: any): any => {
+module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
   class Users extends Model {
     /**
      * Helper method for defining associations.

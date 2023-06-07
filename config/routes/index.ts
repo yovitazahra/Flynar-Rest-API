@@ -1,16 +1,17 @@
-const expressRouter = require('express')
+const express = require('express')
 const { Users } = require('../../app/models/index')
+const { Request, Response, NextFunction } = require('express')
 
-const router = expressRouter.Router()
+const router = express.Router()
 
-router.get('/', (req: any, res: any, next: any) => {
+router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
   res.status(200).json({
     status: 'SUCCESS',
     message: 'Welcome to Flynar Rest API'
   })
 })
 
-router.get('/users', async (req: any, res: any): Promise<any> => {
+router.get('/users', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
   try {
     const result = await Users.findAll()
     return res.status(200).json({
@@ -21,5 +22,7 @@ router.get('/users', async (req: any, res: any): Promise<any> => {
     console.log(err)
   }
 })
+
+export {}
 
 module.exports = router
