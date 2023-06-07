@@ -1,6 +1,8 @@
 const express = require('express')
 const { Users, Flights } = require('../../app/models/index')
 const { Request, Response, NextFunction } = require('express')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const router = express.Router()
 
@@ -11,6 +13,7 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
+// flights
 router.get('/api/v1/users', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
   try {
     const result = await Users.findAll()
@@ -37,7 +40,7 @@ router.get('/flights/:id', async (req: typeof Request, res: typeof Response, nex
 
   const result = await Flights.findOne({ where: { id: req.params.id } })
   if (result === null) {
-    res.json({ status:'ERROR',message: 'Data tidak ditemukan!' })
+    res.json({ status: 'ERROR', message: 'Data tidak ditemukan!' })
   }
   return res.status(200).json({
     status: 'SUCCESS',
@@ -46,6 +49,7 @@ router.get('/flights/:id', async (req: typeof Request, res: typeof Response, nex
 
 })
 
-export {}
+
+export { }
 
 module.exports = router
