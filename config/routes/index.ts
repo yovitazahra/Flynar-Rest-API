@@ -36,16 +36,14 @@ router.get('/flights', async (req: typeof Request, res: typeof Response, next: t
 })
 
 router.get('/flights/:id', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-
   const result = await Flights.findOne({ where: { id: req.params.id } })
   if (result === null) {
-    res.json({ status:'ERROR',message: 'Data tidak ditemukan!' })
+    res.json({ status: 'ERROR', message: 'Data tidak ditemukan!' })
   }
   return res.status(200).json({
     status: 'SUCCESS',
     users: result
   })
-
 })
 
 export {}
