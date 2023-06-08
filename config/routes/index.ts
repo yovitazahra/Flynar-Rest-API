@@ -22,6 +22,7 @@ router.get('/api/v1/users', async (req: typeof Request, res: typeof Response, ne
     console.log(err)
   }
 })
+
 router.get('/flights', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
   try {
     const result = await Flights.findAll()
@@ -33,6 +34,7 @@ router.get('/flights', async (req: typeof Request, res: typeof Response, next: t
     console.log(err)
   }
 })
+
 router.get('/flights/:id', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
 
   const result = await Flights.findOne({ where: { id: req.params.id } })
