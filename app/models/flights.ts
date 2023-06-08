@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { Model } = require( 'sequelize');
+const { Model } = require('sequelize')
 
 module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
   class Flights extends Model {
@@ -9,7 +9,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models: any): void {
+    static associate (models: any): void {
       // define association here
     }
   }
@@ -20,44 +20,44 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       autoIncrement: true,
       primaryKey: true
     },
-    price: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false 
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     passenger: {
-      type:DataTypes.INTEGER,
-      allowNull:false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     seat: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     airline: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     departureLocation: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     returnLocation: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     departureTime: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     returnTime: {
-      type:DataTypes.STRING,
-      allowNull:false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     dateAvailable: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Flights',
-  });
-  return Flights;
-};
+    modelName: 'Flights'
+  })
+  return Flights
+}
 
 export {}
