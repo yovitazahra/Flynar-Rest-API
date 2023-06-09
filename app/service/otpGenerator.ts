@@ -3,13 +3,14 @@ const { Users } = require("../models/users");
 const otpGenerator = require("otp-generator");
 
 const generateOTP = () => {
-    const OTP = otpGenerator.generate(6, {
-    loweCaseAlphabets: false,
+  const OTP = otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
     upperCaseAlphabets: false,
     specialChars: false,
   });
-  return OTP
-}
+  console.log(OTP);
+  return OTP;
+};
 
 async function verifyOTP(req: typeof Request, res: typeof Response) {
   const { code } = req.query;

@@ -38,7 +38,7 @@ router.get(
 );
 
 router.post("/api/v1/register", registerUsers);
-router.get("/api/v1/verify", verifyEmail);
+router.post("/api/v1/verify", verifyEmail);
 
 export {};
 

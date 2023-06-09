@@ -1,34 +1,61 @@
-const { Request, Response, NextFunction } = require("express");
+const { Request, Response } = require("express");
 const bcrypt = require("bcrypt");
-const { Users } = require("../models/users");
+const { Users } = require("../models/index");
+const { sendMail } = require("../service/sendEmail");
+const { generateOTP } = require("../service/otpGenerator");
 
 async function registerUsers(req: typeof Request, res: typeof Response) {
+  const { username, email, password, firstName, lastName, phoneNumber, otp } =
+    req.body;
+  const newUser = await createUser(
+    username,
+    email,
+    password,
+    firstName,
+    lastName,
+    phoneNumber
+  );
+
+  res.status(201).json({
+    status: "success",
+    data: newUser,
+  });
+}
+
+async function createUser(
+  username: string,
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+  phoneNumber: string
+) {
+  const hashPassword = bcrypt.hashSync(password, 10);
+  const otpGenerated = generateOTP();
+  const newUser = await Users.create({
+    username,
+    email,
+    password: hashPassword,
+    firstName,
+    lastName,
+    phoneNumber,
+    otp: otpGenerated,
+  });
   try {
-    const { username, email, password, firstName, lastName, phoneNumber } =
-      req.body;
-    const hashPassword = bcrypt.hashSync(password, 10);
-    const newUser = await Users.create({
-      username: username,
-      email: email,
-      password: hashPassword,
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
+    await sendMail({
+      to: email,
+      OTP: otpGenerated,
     });
-    res.status(201).json({
-      status: "success",
-      data: newUser,
-    });
+    return newUser;
   } catch (error: any) {
-    res.status(400).json({
-      status: "failed",
-      msg: error.message,
-    });
+    return error;
   }
 }
 
 async function verifyEmail(req: typeof Request, res: typeof Response) {
   const { email, otp } = req.body;
+  const user = await validateRegisterUser(email, otp);
+  res.send(user);
 }
 
 async function validateRegisterUser(email: string, otp: number) {
@@ -41,12 +68,12 @@ async function validateRegisterUser(email: string, otp: number) {
   if (user && user.otp !== otp) {
     return [false, "Invalid OTP"];
   }
-  const updatedUser = await User.findByIdAndUpdate(user._id, {
-    $set: { active: true },
-  });
-  return [true, updatedUser];
+
+  return ["Verifikasi berhasil"];
 }
 
+export {};
 module.exports = {
   registerUsers,
+  verifyEmail,
 };
