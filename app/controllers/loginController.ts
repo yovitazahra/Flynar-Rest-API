@@ -76,8 +76,6 @@ module.exports = {
         }
     },
     Logout: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-       
-
         const user = await Users.findAll()
         if (!user[0]) return res.sendStatus(204)
 
