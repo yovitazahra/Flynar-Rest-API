@@ -1,8 +1,9 @@
 const express = require('express')
-const { Users, Flights } = require('../../app/models/index')
+const router = express.Router()
 const { Request, Response, NextFunction } = require('express')
 
-const router = express.Router()
+const {flightList, flightDetail} = require('../../app/controllers/flightController')
+const {usersList} = require('../../app/controllers/userController')
 
 router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
   res.status(200).json({
@@ -11,41 +12,13 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
-router.get('/api/v1/users', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-  try {
-    const result = await Users.findAll()
-    return res.status(200).json({
-      status: 'SUCCESS',
-      users: result
-    })
-  } catch (err) {
-    console.log(err)
-  }
-})
+router.get('/api/v1/users', usersList)
 
-router.get('/flights', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-  try {
-    const result = await Flights.findAll()
-    return res.status(200).json({
-      status: 'SUCCESS',
-      users: result
-    })
-  } catch (err) {
-    console.log(err)
-  }
-})
+// flights
+router.get('/flights', flightList)
+router.get('/flights/:id', flightDetail)
 
-router.get('/flights/:id', async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-  const result = await Flights.findOne({ where: { id: req.params.id } })
-  if (result === null) {
-    res.json({ status: 'ERROR', message: 'Data tidak ditemukan!' })
-  }
-  return res.status(200).json({
-    status: 'SUCCESS',
-    users: result
-  })
-})
 
-export {}
+export { }
 
 module.exports = router
