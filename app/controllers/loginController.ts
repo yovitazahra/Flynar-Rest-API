@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
-      usersList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+    usersList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
         try {
             const result = await Users.findAll()
             return res.status(200).json({
@@ -15,7 +15,7 @@ module.exports = {
             console.log(err)
         }
     },
-    login: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+    Login: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
         try {
             const user = await Users.findOne({
                 where: {
@@ -74,5 +74,26 @@ module.exports = {
                 message: 'email tidak ditemukan!'
             })
         }
+    },
+    Logout: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+       
+
+        const user = await Users.findAll()
+        if (!user[0]) return res.sendStatus(204)
+
+        // update refresh token menjadi null
+        await Users.update({
+            refresh_token: null
+        }, {
+            where: {
+                id: user[0].id
+            }
+        })
+
+        // hapus cookie
+        res.clearCookie('refreshToken')
+        return res.status(200).json({
+            message: 'Anda sudah logout!'
+        })
     }
 }

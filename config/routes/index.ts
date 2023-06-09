@@ -1,6 +1,6 @@
 const express = require('express')
 const { Request, Response, NextFunction } = require('express')
-const {login,usersList} = require('../../app/controllers/loginController')
+const {Login,Logout,usersList} = require('../../app/controllers/loginController')
 
 const router = express.Router()
 
@@ -12,7 +12,8 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
 })
 
 router.get('/users', usersList)
-router.post('/login', login)
+router.post('/login', Login)
+router.delete('/logout', Logout)
 
 export {}
 
