@@ -221,7 +221,7 @@ Deletes the specified user.
 
 # Reset Password
 
-## **POST api/v1/users/resetpassword/:id**
+## **PATCH api/v1/users/resetpassword/:id**
 
 Reset password user
 
@@ -304,17 +304,22 @@ Returns the specified user.
 - **Code:** 200  
   **Content:** `{ <flight_object> }`
 - **Error Response:**
+
   - **Code:** 404  
     **Content:**
+
   ```
     {
     status: "failed",
     message: "Flight doesn't exist"
     }
   ```
+
   OR
+
   - **Code:** 401  
     **Content:**
+
   ```
     {
     status: "failed",
@@ -361,9 +366,12 @@ Updates fields on the specified user and returns the updated object.
 ```
 
 - **Headers**  
-  Content-Type: application/json  
+  Content-Type: application/json
 - **Success Response:**
 - **Code:** 200  
   **Content:** `{ <user_object> }`
   Authorization: Bearer `<OAuth Token>`
+
+```
+
 ```
