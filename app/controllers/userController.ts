@@ -17,14 +17,15 @@ export const getUserById = async (
   }
 
   try {
+    /* if the user exist. CAN BE DELETE because userId/data passed by authMiddleware (already checking there) */
     const userRecord = await Users.findByPk(userId);
-
     if (!userRecord) {
       return res.status(404).json({
         status: "FAILED",
         message: `No User Found with id: ${userId}`,
       });
     }
+    /* if the user exist. CAN BE DELETE because userId/data passed by authMiddleware (already checking there)*/
 
     return res.status(200).json({
       status: "SUCCESS",
@@ -82,7 +83,7 @@ export const resetUserPasswordById = async (
   /* Password validation */
 
   try {
-    // if the user exist. placed under password validation to reduce queries to the database
+    /* if the user exist. CAN BE DELETE because userId/data passed by authMiddleware (already checking there) */
     const userRecord = await Users.findByPk(userId);
 
     if (!userRecord) {
@@ -91,6 +92,7 @@ export const resetUserPasswordById = async (
         message: `No User Found with id: ${userId}`,
       });
     }
+    /* if the user exist. CAN BE DELETE because userId/data passed by authMiddleware (already checking there) */
 
     const hashedPassword = bcrypt.hashSync(newPassword);
     Users.update(
