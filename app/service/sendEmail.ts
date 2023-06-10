@@ -1,13 +1,14 @@
 const nodemailer = require("nodemailer");
 
-const sendMail = async (params: any) => {
+const sendEmail = async (params: any) => {
   try {
     const testAccount = await nodemailer.createTestAccount();
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
+      host: "smtp.gmail.com",
       port: 587,
       secure: false, // true for 465, false for other ports
+      requireTLS: true,
       auth: {
         user: testAccount.user, // generated ethereal user
         pass: testAccount.pass, // generated ethereal password
@@ -21,6 +22,7 @@ const sendMail = async (params: any) => {
       text: "Hello world?", // plain text body
       html: "<b>Hello world?</b>", // html body
     });
+    console.log(params.to);
     return info;
   } catch (error) {
     console.log(error);
@@ -29,4 +31,4 @@ const sendMail = async (params: any) => {
 };
 export {};
 
-module.exports = { sendMail };
+module.exports = { sendEmail };

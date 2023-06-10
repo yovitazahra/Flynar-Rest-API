@@ -1,12 +1,34 @@
 const { Request, Response } = require("express");
 const bcrypt = require("bcrypt");
 const { Users } = require("../models/index");
-const { sendMail } = require("../service/sendEmail");
+const { sendEmail } = require("../service/sendEmail");
 const { generateOTP } = require("../service/otpGenerator");
 
 async function registerUsers(req: typeof Request, res: typeof Response) {
-  const { username, email, password, firstName, lastName, phoneNumber, otp } =
+  const { username, email, password, firstName, lastName, phoneNumber } =
     req.body;
+
+  if (
+    username === "" ||
+    email === "" ||
+    password === "" ||
+    firstName === "" ||
+    lastName === "" ||
+    phoneNumber === ""
+  ) {
+    return res.status(400).json({
+      status: "failed",
+      msg: "Mohon Lengkapi Data",
+    });
+  }
+
+  const isExisting = await findUserByEmail(email);
+  if (isExisting) {
+    return res.status(400).json({
+      status: "failed",
+      msg: "Email sudah terdaftar",
+    });
+  }
   const newUser = await createUser(
     username,
     email,
@@ -20,6 +42,15 @@ async function registerUsers(req: typeof Request, res: typeof Response) {
     status: "success",
     data: newUser,
   });
+}
+async function findUserByEmail(email: string) {
+  const user = await Users.findOne({
+    email,
+  });
+  if (!user) {
+    return false;
+  }
+  return user;
 }
 
 async function createUser(
@@ -42,7 +73,7 @@ async function createUser(
     otp: otpGenerated,
   });
   try {
-    await sendMail({
+    await sendEmail({
       to: email,
       OTP: otpGenerated,
     });
@@ -62,6 +93,7 @@ async function validateRegisterUser(email: string, otp: number) {
   const user = await Users.findOne({
     email,
   });
+  console.log(user.dataValues.email);
   if (!user) {
     return [false, "User not found"];
   }
