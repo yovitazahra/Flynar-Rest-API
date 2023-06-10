@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "postgres",
-    "password": "root",
+    "password": "1234",
     "database": "db_flynar_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "root",
+    "password": "1234",
     "database": "db_flynar_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "root",
+    "password": "1234",
     "database": "db_flynar_prod",
     "host": "127.0.0.1",
     "dialect": "postgres"

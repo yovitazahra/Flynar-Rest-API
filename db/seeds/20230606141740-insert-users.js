@@ -18,9 +18,21 @@ module.exports = {
           firstName: 'Hans',
           lastName: 'Rio',
           phoneNumber: '083117926603',
+          resetPasswordLink: '',
           createdAt: new Date(),
           updatedAt: new Date()
-        }
+        },
+        {
+          username: 'Gilang Maulana',
+          email: 'gilangmaulana541@gmail.com',
+          password: hashPassword,
+          firstName: 'Gilang',
+          lastName: 'Maulana',
+          phoneNumber: '08987676762',
+          resetPasswordLink: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
       ],
       {})
   },

@@ -43,6 +43,11 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    resetPasswordLink:{
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue:''
     }
   }, {
     sequelize,

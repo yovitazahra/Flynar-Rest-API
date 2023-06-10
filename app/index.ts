@@ -1,5 +1,8 @@
 const express = require('express')
 const indexRouter = require('../config/routes/index')
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const app = express()
 const port = 3000
