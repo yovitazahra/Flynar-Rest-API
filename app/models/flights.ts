@@ -51,8 +51,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     returnTime: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    dateAvailable: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'Flights'
