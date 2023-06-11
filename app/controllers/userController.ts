@@ -41,13 +41,19 @@ module.exports = {
         return res.status(200).json({ message: 'Link reset password berhasil terkirim!', status: true });
     },
     resetPassword: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-        const { token, password, Newpassword } = req.body;
+        const { email, token, password, Newpassword } = req.body;
         const user = await Users.findOne({
             where: {
                 resetPasswordLink: token,
+                email
             },
         });
-        console.log('password sebelumnya :', user.password);
+        console.log('email :', email);
+        console.log(`password sebelumnya : (${password}) ${user.password}`);
+
+        if (!user) {
+            return res.status(404).json({ error: 'Email tidak ditemukan!' });
+        }
 
         const isMatch = bcryptjs.compareSync(password, user.password)
         if (!isMatch) {
