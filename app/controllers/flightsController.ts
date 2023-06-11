@@ -7,20 +7,27 @@ module.exports = {
       const result = await Flights.findAll()
       return res.status(200).json({
         status: 'SUCCESS',
-        users: result
+        flights: result
       })
     } catch (err) {
       console.log(err)
     }
   },
   flightDetail: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    const result = await Flights.findOne({ where: { id: req.params.id } })
-    if (result === null) {
-      res.json({ status: 'ERROR', message: 'Data tidak ditemukan!' })
+    try {
+      const result = await Flights.findOne({ where: { id: req.params.id } })
+      if (result === null) {
+        return res.status(404).json({
+          status: 'FAILED',
+          message: 'Data tidak ditemukan'
+        })
+      }
+      return res.status(200).json({
+        status: 'SUCCESS',
+        flight: result
+      })
+    } catch (err) {
+      console.log(err)
     }
-    return res.status(200).json({
-      status: 'SUCCESS',
-      users: result
-    })
   }
 }
