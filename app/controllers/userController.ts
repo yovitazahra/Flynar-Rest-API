@@ -51,7 +51,7 @@ module.exports = {
 
         const isMatch = bcryptjs.compareSync(password, user.password)
         if (!isMatch) {
-            return res.status(401).json({ error: 'Invalid password' });
+            return res.status(401).json({ error: 'Password sebelumnya tidak cocok!' });
         }
 
         const hashPassword = await bcryptjs.hash(Newpassword, 10)
