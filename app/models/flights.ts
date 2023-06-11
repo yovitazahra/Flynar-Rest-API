@@ -20,15 +20,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       autoIncrement: true,
       primaryKey: true
     },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    passenger: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    seat: {
+    flightCode: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -36,11 +28,27 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    departureLocation: {
+    departureAirport: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    returnLocation: {
+    returnAirport: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    departureCity: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    returnCity: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    departureDate: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    returnDate: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -49,6 +57,46 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       allowNull: false
     },
     returnTime: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    label: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    economyPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    economyCapacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    premiumEconomyPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    premiumEconomyCapacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    businessPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    businessCapacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    firstClassPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    firstClassCapacity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    additionalInformation: {
       type: DataTypes.STRING,
       allowNull: false
     }
