@@ -48,6 +48,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       otp: {
         type: DataTypes.INTEGER,
         allowNull: false
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
       }
     },
     {
