@@ -1,6 +1,6 @@
-"use strict";
+'use strict'
 
-const { Model } = require("sequelize");
+const { Model } = require('sequelize')
 
 module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
   class Users extends Model {
@@ -9,7 +9,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models: any): void {
+    static associate (models: any): void {
       // define association here
     }
   }
@@ -19,41 +19,41 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
       },
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       otp: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
       sequelize,
-      modelName: "Users",
+      modelName: 'Users'
     }
-  );
-  return Users;
-};
+  )
+  return Users
+}

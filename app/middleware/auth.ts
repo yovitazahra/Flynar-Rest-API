@@ -1,17 +1,17 @@
-const { Request, Response, NextFunction } = require("express");
+const { Request, Response, NextFunction } = require('express')
 
-async function localVariable(
+async function localVariable (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
-) {
+): Promise<void> {
   req.app.locals = {
     OTP: null,
-    resetSession: false,
-  };
-  next();
+    resetSession: false
+  }
+  next()
 }
 
 module.exports = {
-  localVariable,
-};
+  localVariable
+}
