@@ -11,9 +11,9 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
-router.get('/users', usersList)
-router.post('/login', Login)
-router.delete('/logout', Logout)
+router.get('/api/v1/users', usersList)
+router.post('/api/v1/login', Login)
+router.delete('/api/v1/logout', Logout)
 
 export {}
 
