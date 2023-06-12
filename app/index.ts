@@ -7,7 +7,7 @@ const port = 3000
 app.use(express.json())
 
 app.listen(port, () => {
-  console.log(`\nApp Running on http://localhost:${port}`)
+  console.log(`\nApp Running on http://localhost:${port}/api/v1`)
   console.log('Press Ctrl-C to terminate\n')
 })
 

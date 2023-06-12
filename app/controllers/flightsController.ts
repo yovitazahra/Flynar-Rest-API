@@ -5,8 +5,10 @@ module.exports = {
   flightList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
       const result = await Flights.findAll()
+      const total = await Flights.count()
       return res.status(200).json({
         status: 'SUCCESS',
+        total,
         flights: result
       })
     } catch (err) {
