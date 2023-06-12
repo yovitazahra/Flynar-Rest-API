@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      returnAirport: {
+      arrivalAirport: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      returnCity: {
+      arrivalCity: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      returnDate: {
+      arrivalDate: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -46,7 +46,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      returnTime: {
+      arrivalTime: {
         type: Sequelize.STRING,
         allowNull: false
       },

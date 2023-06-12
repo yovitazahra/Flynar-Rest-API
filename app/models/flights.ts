@@ -32,7 +32,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    returnAirport: {
+    arrivalAirport: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -40,7 +40,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    returnCity: {
+    arrivalCity: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -48,7 +48,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    returnDate: {
+    arrivalDate: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -56,7 +56,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    returnTime: {
+    arrivalTime: {
       type: DataTypes.STRING,
       allowNull: false
     },

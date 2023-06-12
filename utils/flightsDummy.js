@@ -31,9 +31,9 @@ const flightsDummy = () => {
   ]
 
   const times = [
-    { departureTime: '08:00:00.000', returnTime: '12:00:00.000' },
-    { departureTime: '13:15:00.000', returnTime: '17:15:00.000' },
-    { departureTime: '20:15:00.000', returnTime: '23:30:00.000' }
+    { departureTime: '08:00:00.000', arrivalTime: '12:00:00.000' },
+    { departureTime: '13:15:00.000', arrivalTime: '17:15:00.000' },
+    { departureTime: '20:15:00.000', arrivalTime: '23:30:00.000' }
   ]
 
   const pricesAndCapacities = [
@@ -57,13 +57,13 @@ const flightsDummy = () => {
             item.flightCode = code
             item.airline = airlines[j].name
             item.departureAirport = citiesAndAirports[k].airport
-            item.returnAirport = citiesAndAirports[l].airport
+            item.arrivalAirport = citiesAndAirports[l].airport
             item.departureCity = citiesAndAirports[k].city
-            item.returnCity = citiesAndAirports[l].city
+            item.arrivalCity = citiesAndAirports[l].city
             item.departureDate = dates[i]
-            item.returnDate = dates[i]
+            item.arrivalDate = dates[i]
             item.departureTime = times[m].departureTime
-            item.returnTime = times[m].returnTime
+            item.arrivalTime = times[m].arrivalTime
             item.label = ''
             item.economyPrice = pricesAndCapacities[m].economyPrice
             item.economyCapacity = pricesAndCapacities[m].economyCapacity
