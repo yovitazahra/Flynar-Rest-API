@@ -12,9 +12,9 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
-router.get('/users', getAllUsers)
-router.put('/forgot-password', forgotPassword)
-router.put('/reset-password', resetPassword)
+router.get('/api/v1/users', getAllUsers)
+router.put('/api/v1/forgot-password', forgotPassword)
+router.put('/api/v1/reset-password', resetPassword)
 
 export {}
 
