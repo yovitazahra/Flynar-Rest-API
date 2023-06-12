@@ -4,7 +4,9 @@ const { Request, Response, NextFunction } = require('express')
 module.exports = {
   flightList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
-      const result = await Flights.findAll()
+      const result = await Flights.findAll({
+        limit: 100
+      })
       const total = await Flights.count()
       return res.status(200).json({
         status: 'SUCCESS',
@@ -33,3 +35,5 @@ module.exports = {
     }
   }
 }
+
+export {}
