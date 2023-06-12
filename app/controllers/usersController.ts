@@ -8,6 +8,7 @@ const emailValidator = require('deep-email-validator')
 async function usersList (req: typeof Request, res: typeof Response): Promise<any> {
   try {
     const result = await Users.findAll({
+      attributes: ['username', 'email', 'firstName', 'lastName', 'phoneNumber'],
       limit: 100
     })
     return res.status(200).json({
