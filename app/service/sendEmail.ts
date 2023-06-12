@@ -1,28 +1,37 @@
 const nodemailer = require('nodemailer')
 
-const sendEmail = async (params: any): Promise<any> => {
-  try {
-    const testAccount = await nodemailer.createTestAccount()
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      requireTLS: true,
-      auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass // generated ethereal password
-      }
-    })
+const MAIL_SETTINGS = {
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'flynar.otp@gmail.com',
+    pass: 'pawgjhwzmrsdfrjk'
+  }
+}
 
+const sendEmail = async (params: { to: string, OTP: number }): Promise<any> => {
+  try {
+    const transporter = nodemailer.createTransport(MAIL_SETTINGS)
     const info = await transporter.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: params.to, // list of receivers
-      subject: 'Hello ✔', // Subject line
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>' // html body
+      from: MAIL_SETTINGS.auth.user,
+      to: params.to,
+      subject: 'Flynar OTP Verification Code',
+      html: `
+        <div
+          class="container"
+          style="max-width: 90%; margin: auto; padding-top: 20px"
+        >
+          <h2>Welcome to the Flynar.</h2>
+          <h4>You are officially In ✔</h4>
+          <p style="margin-bottom: 30px;">Pleas enter the sign up OTP to get started</p>
+          <h1 style="font-size: 40px; letter-spacing: 2px; text-align:center;">${params.OTP}</h1>
+      </div>
+      `
     })
     return info
   } catch (error) {
+    console.log(error)
     return false
   }
 }
