@@ -6,7 +6,9 @@ const jwt = require('jsonwebtoken')
 module.exports = {
     usersList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
         try {
-            const result = await Users.findAll()
+            const result = await Users.findAll({
+                attributes: ['id','username','email','firstName','lastName','phoneNumber']
+            })
             return res.status(200).json({
                 status: 'SUCCESS',
                 users: result
@@ -24,8 +26,6 @@ module.exports = {
                 }
             })
 
-            console.log(user)
-
             const match = await bcrypt.compare(req.body.password, user.password)
             if (!match) return res.status(400).json({
                 message: 'password salah!'
@@ -39,15 +39,15 @@ module.exports = {
                 userId,
                 email,
                 username
-            }, 'a3xyP2tSDk0zUxHviDxZ1NdCNPA0DOK1Z6qd6aG9EWl8vVLEnVWdEfJWpqHV5', {
-                expiresIn: '1d'
+            }, process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '20s'
             })
 
             const refreshToken = jwt.sign({
                 userId,
                 email,
                 username
-            }, 'A6weD1Bef6pqF1yW4MZNplLpupLIWkc72Ij0VRXK5cxN1c25tilzGzap1OCT', {
+            }, process.env.REFRESH_TOKEN_SECRET, {
                 expiresIn: '1d'
             })
 
@@ -71,15 +71,23 @@ module.exports = {
         } catch (error) {
             console.log(error)
             res.status(404).json({
-                message: 'email tidak ditemukan!'
+                message: 'username atau email tidak ditemukan!'
             })
         }
     },
     Logout: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-        const user = await Users.findAll()
+        // const refreshToken = req.cookies.refreshToken
+        // if(!refreshToken) return res.sendStatus(204)
+
+        const user = await Users.findAll(
+        //     {
+        //     where:{
+        //         refresh_token: refreshToken
+        //     }
+        // }
+        )
         if (!user[0]) return res.sendStatus(204)
 
-        // update refresh token menjadi null
         await Users.update({
             refresh_token: null
         }, {
@@ -88,7 +96,6 @@ module.exports = {
             }
         })
 
-        // hapus cookie
         res.clearCookie('refreshToken')
         return res.status(200).json({
             message: 'Anda sudah logout!'

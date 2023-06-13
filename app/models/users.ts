@@ -43,6 +43,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    refresh_token:{
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,

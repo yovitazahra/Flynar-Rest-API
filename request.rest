@@ -1,0 +1,13 @@
+POST http://localhost:3000/api/v1/login
+Content-Type: application/json
+
+{
+    "email": "hansolo.palla2115@gmail.com",
+    "username": "Hans",
+    "password": "hansFlynarADMIN123",
+    "confPassword": "hansFlynarADMIN123"
+}
+
+####
+
+DELETE http://localhost:3000/api/v1/logout
