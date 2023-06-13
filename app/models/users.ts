@@ -44,7 +44,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    refresh_token:{
+    refresh_token: {
       type: DataTypes.STRING,
       allowNull: true
     }

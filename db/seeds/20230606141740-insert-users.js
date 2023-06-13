@@ -4,7 +4,7 @@
 const bcryptjs = require('bcryptjs')
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up (queryInterface, Sequelize) {
     const salt = await bcryptjs.genSalt()
     const hashPassword = await bcryptjs.hash('hansFlynarADMIN123', salt)
 
@@ -17,13 +17,13 @@ module.exports = {
         firstName: 'Hans',
         lastName: 'Rio',
         phoneNumber: '083117926603',
-        refresh_token:'',
+        refresh_token: '',
         createdAt: new Date(),
         updatedAt: new Date()
       }], {})
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *

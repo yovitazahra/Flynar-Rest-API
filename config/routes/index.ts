@@ -1,7 +1,7 @@
 const express = require('express')
 const { Request, Response, NextFunction } = require('express')
-const {Login,Logout,usersList} = require('../../app/controllers/loginController')
-const {verifyToken} = require('../../app/middleware/verifyToken')
+const { Login, Logout, usersList } = require('../../app/controllers/loginController')
+const { verifyToken } = require('../../app/middleware/verifyToken')
 
 const router = express.Router()
 
@@ -12,7 +12,7 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
-router.get('/api/v1/users', verifyToken,usersList)
+router.get('/api/v1/users', verifyToken, usersList)
 router.post('/api/v1/login', Login)
 router.delete('/api/v1/logout', Logout)
 
