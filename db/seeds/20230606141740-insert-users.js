@@ -17,7 +17,6 @@ module.exports = {
         firstName: 'Hans',
         lastName: 'Rio',
         phoneNumber: '083117926603',
-        refresh_token: '',
         createdAt: new Date(),
         updatedAt: new Date()
       }], {})
