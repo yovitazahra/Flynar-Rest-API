@@ -6,6 +6,7 @@ const { generateOTP } = require('../service/otpGenerator')
 const emailValidator = require('deep-email-validator')
 const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
+const { userTransformer } = require('../utils/userTransformer')
 
 async function usersList (req: typeof Request, res: typeof Response): Promise<any> {
   try {
@@ -19,6 +20,41 @@ async function usersList (req: typeof Request, res: typeof Response): Promise<an
     })
   } catch (err) {
     console.log(err)
+  }
+}
+
+async function getUserById (req: typeof Request, res: typeof Response): Promise<any> {
+  const refreshToken = req?.cookies?.refreshToken
+  if (refreshToken === undefined) {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Silahkan Login Terlebih Dahulu'
+    })
+  }
+
+  try {
+    const userRecord = await Users.findOne({
+      where: {
+        refreshToken
+      }
+    })
+    if (userRecord === null) {
+      return res.status(404).json({
+        status: 'FAILED',
+        message: 'Akun Tidak Ditemukan'
+      })
+    }
+    return res.status(200).json({
+      status: 'SUCCESS',
+      data: userTransformer(userRecord)
+    })
+  } catch (err) {
+    if (err instanceof Error) {
+      return res.status(500).json({
+        status: 'FAILED',
+        message: err.message
+      })
+    }
   }
 }
 
@@ -192,10 +228,10 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
           const { username, email } = user
           const userId = user.id
           const accessToken = jwt.sign({ userId, email, username }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1h'
+            expiresIn: '1d'
           })
           refreshToken = jwt.sign({ userId, email, username }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '1h'
+            expiresIn: '30d'
           })
           await Users.update({ refreshToken }, {
             where: {
@@ -258,6 +294,7 @@ export {}
 
 module.exports = {
   usersList,
+  getUserById,
   registerUsers,
   verifyEmail,
   login,

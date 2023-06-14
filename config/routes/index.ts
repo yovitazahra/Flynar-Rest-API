@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Request, Response, NextFunction } = require('express')
 const { flightList, flightDetail } = require('../../app/controllers/flightsController')
-const { registerUsers, verifyEmail, usersList, login, logout } = require('../../app/controllers/usersController')
+const { registerUsers, verifyEmail, usersList, login, logout, getUserById } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
 
 router.get('/api/v1/', (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
@@ -13,6 +13,7 @@ router.get('/api/v1/', (req: typeof Request, res: typeof Response, next: typeof 
 })
 
 router.get('/api/v1/users', verifyToken, usersList)
+router.get('/api/v1/profile', verifyToken, getUserById)
 router.post('/api/v1/register', registerUsers)
 router.post('/api/v1/verify', verifyEmail)
 router.post('/api/v1/login', login)
