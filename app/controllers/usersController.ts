@@ -11,7 +11,7 @@ const { userTransformer } = require('../utils/userTransformer')
 async function usersList (req: typeof Request, res: typeof Response): Promise<any> {
   try {
     const result = await Users.findAll({
-      attributes: ['username', 'email', 'firstName', 'lastName', 'phoneNumber'],
+      attributes: ['name', 'email', 'phoneNumber'],
       limit: 100
     })
     return res.status(200).json({
@@ -59,13 +59,11 @@ async function getUserById (req: typeof Request, res: typeof Response): Promise<
 }
 
 async function registerUsers (req: typeof Request, res: typeof Response): Promise<typeof Response> {
-  const { username, email, password, firstName, lastName, phoneNumber } = req.body
+  const { name, email, password, phoneNumber } = req.body
   if (
-    username === '' ||
+    name === '' ||
     email === '' ||
     password === '' ||
-    firstName === '' ||
-    lastName === '' ||
     phoneNumber === ''
   ) {
     return res.status(400).json({
@@ -92,11 +90,9 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
   }
 
   const newUser = await createUser(
-    username,
+    name,
     email,
     password,
-    firstName,
-    lastName,
     phoneNumber
   )
 
@@ -121,11 +117,9 @@ async function findUserByEmail (email: string): Promise<boolean | Record<string,
 }
 
 async function createUser (
-  username: string,
+  name: string,
   email: string,
   password: string,
-  firstName: string,
-  lastName: string,
   phoneNumber: string
 ): Promise<Record<string, any> | Error | boolean> {
   const hashPassword = bcrypt.hashSync(password, 10)
@@ -139,17 +133,15 @@ async function createUser (
 
     if (emailSended !== false) {
       const newUser = await Users.create({
-        username,
+        name,
         email,
         password: hashPassword,
-        firstName,
-        lastName,
         phoneNumber,
         otp: otpGenerated,
         isVerified: false
       })
 
-      const returnValue = { username: newUser.username, email: newUser.email, firstName: newUser.firstName, lastName: newUser.lastName, phoneNumber: newUser.phoneNumber }
+      const returnValue = { name: newUser.name, email: newUser.email, phoneNumber: newUser.phoneNumber }
       return returnValue
     } else {
       return false
@@ -225,12 +217,12 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
             message: 'Password Salah'
           })
         } else {
-          const { username, email } = user
+          const { name, email } = user
           const userId = user.id
-          const accessToken = jwt.sign({ userId, email, username }, process.env.ACCESS_TOKEN_SECRET, {
+          const accessToken = jwt.sign({ id: userId, email, name }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1d'
           })
-          refreshToken = jwt.sign({ userId, email, username }, process.env.REFRESH_TOKEN_SECRET, {
+          refreshToken = jwt.sign({ id: userId, email, name }, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: '30d'
           })
           await Users.update({ refreshToken }, {
@@ -290,6 +282,46 @@ async function logout (req: typeof Request, res: typeof Response, next: typeof N
   }
 }
 
+async function refreshAccessToken (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> {
+  try {
+    const refreshToken = req?.cookies?.refreshToken
+    if (refreshToken === undefined) {
+      return res.status(401).json({
+        status: 'FAILED',
+        message: 'Silahkan Login'
+      })
+    }
+
+    const user = await Users.findAll({
+      where: { refreshToken }
+    })
+
+    if (user[0] === undefined) {
+      return res.status(404).json({
+        status: 'FAILED',
+        message: 'Akun Tidak Ditemukan'
+      })
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
+      if (err instanceof Error) {
+        return res.status(401).json({
+          status: 'FAILED',
+          message: 'Sesi Login Expired, Silahkan Login'
+        })
+      }
+
+      const { id, email, name } = user[0]
+      const accessToken = jwt.sign({ id, email, name }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1d'
+      })
+      res.json({ accessToken })
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export {}
 
 module.exports = {
@@ -298,5 +330,6 @@ module.exports = {
   registerUsers,
   verifyEmail,
   login,
-  logout
+  logout,
+  refreshAccessToken
 }
