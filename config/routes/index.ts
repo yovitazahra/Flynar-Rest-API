@@ -6,7 +6,8 @@ const {
   verifyEmail
 } = require('../../app/controllers/usersController.ts')
 const { flightList, flightDetail } = require('../../app/controllers/flightsController')
-const { usersList } = require('../../app/controllers/usersController')
+const { usersList, login, logout } = require('../../app/controllers/usersController')
+const verifyToken = require('../../app/middleware/verifyToken')
 
 router.get('/api/v1/', (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
   res.status(200).json({
@@ -15,9 +16,11 @@ router.get('/api/v1/', (req: typeof Request, res: typeof Response, next: typeof 
   })
 })
 
-router.get('/api/v1/users', usersList)
+router.get('/api/v1/users', verifyToken, usersList)
 router.post('/api/v1/register', registerUsers)
 router.post('/api/v1/verify', verifyEmail)
+router.post('/api/v1/login', login)
+router.delete('/api/v1/logout', logout)
 
 // flights
 router.get('/api/v1/flights', flightList)
