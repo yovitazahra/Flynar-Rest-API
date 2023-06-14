@@ -24,25 +24,26 @@ async function usersList (req: typeof Request, res: typeof Response): Promise<an
 }
 
 async function getUserById (req: typeof Request, res: typeof Response): Promise<any> {
-  const userId = Number(req.params.id)
-
-  if (userId === undefined) {
+  const refreshToken = req?.cookies?.refreshToken
+  if (refreshToken === undefined) {
     return res.status(400).json({
       status: 'FAILED',
-      message: 'Invalid Params'
+      message: 'Silahkan Login Terlebih Dahulu'
     })
   }
 
   try {
-    const userRecord = await Users.findByPk(userId)
-
+    const userRecord = await Users.findOne({
+      where: {
+        refreshToken
+      }
+    })
     if (userRecord === null) {
       return res.status(404).json({
         status: 'FAILED',
-        message: `No User Found with id: ${userId}`
+        message: 'Akun Tidak Ditemukan'
       })
     }
-
     return res.status(200).json({
       status: 'SUCCESS',
       data: userTransformer(userRecord)
@@ -227,10 +228,10 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
           const { username, email } = user
           const userId = user.id
           const accessToken = jwt.sign({ userId, email, username }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1h'
+            expiresIn: '1d'
           })
           refreshToken = jwt.sign({ userId, email, username }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '1h'
+            expiresIn: '30d'
           })
           await Users.update({ refreshToken }, {
             where: {
