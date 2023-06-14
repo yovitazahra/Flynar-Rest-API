@@ -20,7 +20,6 @@ const verifyToken = (req: typeof Request, res: typeof Response, next: typeof Nex
     })
   }
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
-    console.log(err)
     if (err !== null) {
       return res.status(401).json({
         status: 'FAILED',

@@ -192,10 +192,10 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
           const { username, email } = user
           const userId = user.id
           const accessToken = jwt.sign({ userId, email, username }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '6h'
+            expiresIn: '1h'
           })
           refreshToken = jwt.sign({ userId, email, username }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '1d'
+            expiresIn: '1h'
           })
           await Users.update({ refreshToken }, {
             where: {
