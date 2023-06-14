@@ -1,43 +1,41 @@
-const express = require("express");
-const { Users } = require("../../app/models/index");
-const { Request, Response, NextFunction } = require("express");
-
-const { getUserById } = require("../../app/controllers/usersController");
-
-const router = express.Router();
+const express = require('express')
+const { Users } = require('../../app/models/index')
+const { Request, Response, NextFunction } = require('express')
+const { getUserById } = require('../../app/controllers/usersController')
+const router = express.Router()
 
 router.get(
-    "/",
-    (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
-        res.status(200).json({
-            status: "SUCCESS",
-            message: "Welcome to Flynar Rest API",
-        });
-    }
-);
+  '/',
+  (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {
+    res.status(200).json({
+      status: 'SUCCESS',
+      message: 'Welcome to Flynar Rest API'
+    })
+  }
+)
 
 router.get(
-    "/users",
-    async (
-        req: typeof Request,
-        res: typeof Response,
-        next: typeof NextFunction
-    ): Promise<any> => {
-        try {
-            const result = await Users.findAll();
-            return res.status(200).json({
-                status: "SUCCESS",
-                users: result,
-            });
-        } catch (err) {
-            console.log(err);
-        }
+  '/users',
+  async (
+    req: typeof Request,
+    res: typeof Response,
+    next: typeof NextFunction
+  ): Promise<any> => {
+    try {
+      const result = await Users.findAll()
+      return res.status(200).json({
+        status: 'SUCCESS',
+        users: result
+      })
+    } catch (err) {
+      console.log(err)
     }
-);
+  }
+)
 
-// router.get("/users/:id", authMiddleware, getUserById);
-router.get("/users/:id", getUserById);
+// router.get('/users/:id', authMiddleware, getUserById)
+router.get('/users/:id', getUserById)
 
-export {};
+export {}
 
-module.exports = router;
+module.exports = router

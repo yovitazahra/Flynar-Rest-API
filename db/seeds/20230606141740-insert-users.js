@@ -12,12 +12,12 @@ module.exports = {
       'Users',
       [
         {
-          username: 'Hans',
+          name: 'Hans',
           email: 'hansolo.palla2115@gmail.com',
           password: hashPassword,
-          firstName: 'Hans',
-          lastName: 'Rio',
           phoneNumber: '083117926603',
+          otp: 121212,
+          isVerified: true,
           createdAt: new Date(),
           updatedAt: new Date()
         }

@@ -1,20 +1,15 @@
-type User = {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-};
+interface User {
+  id: number
+  name: string
+  email: string
+  password: string
+  phoneNumber: string
+}
 
-export const userTransformer = (user: User) => {
-    return {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        phoneNumber: user.phoneNumber,
-    };
-};
+export const userTransformer = (user: User): Record<string, any> => {
+  return {
+    name: user.name,
+    email: user.email,
+    phoneNumber: user.phoneNumber
+  }
+}

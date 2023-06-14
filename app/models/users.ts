@@ -20,7 +20,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       autoIncrement: true,
       primaryKey: true
     },
-    username: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -32,17 +32,21 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    otp: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,
