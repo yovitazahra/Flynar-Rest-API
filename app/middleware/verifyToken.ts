@@ -1,14 +1,37 @@
 const jwt = require('jsonwebtoken')
+const { Request, Response, NextFunction } = require('express')
 
-export const verifyToken = (req: typeof Request, res: typeof Response, next: typeof NextFunction): any | typeof Response => {
+const verifyToken = (req: typeof Request, res: typeof Response, next: typeof NextFunction): any | typeof Response => {
+  const refreshToken = req?.cookies?.refreshToken
+  if (refreshToken === undefined) {
+    return res.status(401).json({
+      status: 'FAILED',
+      message: 'Silahkan Login'
+    })
+  }
+
   const authHeader = req.headers.authorization
   const token = (Boolean(authHeader)) && authHeader.split(' ')[1]
 
-  if (token == null) return res.sendStatus(401)
-
+  if (token === null || token === undefined) {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Token Invalid'
+    })
+  }
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
-    if (err !== undefined) return res.status(403).json({ message: 'Akses ditolak! silahkan login terlebih dahulu~' })
+    console.log(err)
+    if (err !== null) {
+      return res.status(401).json({
+        status: 'FAILED',
+        message: 'Sesi Login Expired, Silahkan Login'
+      })
+    }
     req.email = decoded.email
     next()
   })
 }
+
+export {}
+
+module.exports = verifyToken
