@@ -34,17 +34,25 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      otp: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
       refreshToken: {
         type: Sequelize.STRING,
         allowNull: true
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       }
     })
   },

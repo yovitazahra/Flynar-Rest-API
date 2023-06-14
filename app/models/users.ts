@@ -10,7 +10,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
      * The `models/index` file will call this method automatically.
      */
     static associate (models: any): void {
-    // define association here
+      // define association here
     }
   }
   Users.init({
@@ -54,3 +54,5 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
   })
   return Users
 }
+
+export {}
