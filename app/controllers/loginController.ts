@@ -76,16 +76,7 @@ module.exports = {
         }
     },
     Logout: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-        // const refreshToken = req.cookies.refreshToken
-        // if(!refreshToken) return res.sendStatus(204)
-
-        const user = await Users.findAll(
-        //     {
-        //     where:{
-        //         refresh_token: refreshToken
-        //     }
-        // }
-        )
+        const user = await Users.findAll()
         if (!user[0]) return res.sendStatus(204)
 
         await Users.update({
