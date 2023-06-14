@@ -11,6 +11,7 @@ const port = 8000
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
+app.set('trust proxy', true)
 
 app.listen(port, () => {
   console.log(`\nApp Running on http://localhost:${port}/api/v1`)

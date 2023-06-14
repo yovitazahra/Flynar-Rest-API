@@ -1,3 +1,2 @@
-runtime: nodejs18
-env: standard
-instance_class: F1
+runtime: nodejs
+env: flex
