@@ -1,6 +1,6 @@
 'use strict'
 
-const flightsDummy = require('../../utils/flightsDummy')
+const flightsDummy = require('../../app/utils/flightsDummy')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
