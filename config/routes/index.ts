@@ -2,7 +2,7 @@ const express = require("express");
 const { Users } = require("../../app/models/index");
 const { Request, Response, NextFunction } = require("express");
 
-const { getUserById } = require("../../app/controllers/userController");
+const { getUserById } = require("../../app/controllers/usersController");
 
 const router = express.Router();
 
