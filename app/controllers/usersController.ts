@@ -210,6 +210,12 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
         }
       })
       if (user !== null) {
+        if (user.isVerified === false) {
+          return res.status(401).json({
+            status: 'FAILED',
+            message: 'Silahkan Verifikasi Akun Ini'
+          })
+        }
         const match = await bcrypt.compare(password, user.password)
         if (match === false) {
           return res.status(400).json({
@@ -261,16 +267,11 @@ async function logout (req: typeof Request, res: typeof Response, next: typeof N
       where: { refreshToken }
     })
 
-    if (user[0] === undefined) {
-      return res.status(404).json({
-        status: 'FAILED',
-        message: 'Akun Tidak Ditemukan'
+    if (user[0] !== undefined) {
+      await Users.update({ refreshToken: null }, {
+        where: { id: user[0].id }
       })
     }
-
-    await Users.update({ refreshToken: null }, {
-      where: { id: user[0].id }
-    })
 
     res.clearCookie('refreshToken')
     return res.status(200).json({
