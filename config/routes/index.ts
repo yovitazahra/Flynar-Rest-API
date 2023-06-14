@@ -1,12 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const { Request, Response, NextFunction } = require('express')
-const {
-  registerUsers,
-  verifyEmail
-} = require('../../app/controllers/usersController.ts')
 const { flightList, flightDetail } = require('../../app/controllers/flightsController')
-const { usersList, login, logout } = require('../../app/controllers/usersController')
+const { registerUsers, verifyEmail, usersList, login, logout } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
 
 router.get('/api/v1/', (req: typeof Request, res: typeof Response, next: typeof NextFunction) => {

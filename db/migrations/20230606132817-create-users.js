@@ -10,7 +10,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      username: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -22,21 +22,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      lastName: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       phoneNumber: {
         type: Sequelize.STRING,
         allowNull: false
       },
       otp: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: true
       },
       isVerified: {
         type: Sequelize.BOOLEAN,
