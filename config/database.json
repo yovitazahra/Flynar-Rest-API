@@ -3,14 +3,14 @@
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
     "database": "railway",
-    "host": "@containers-us-west-171.railway.app:6513",
+    "host": "containers-us-west-171.railway.app:6513",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
     "database": "railway",
-    "host": "@containers-us-west-171.railway.app:6513",
+    "host": "containers-us-west-171.railway.app:6513",
     "dialect": "postgres"
   },
   "production": {
