@@ -13,7 +13,7 @@ let sequelize: any
 if (config.use_env_variable === true) {
   sequelize = new Sequelize(nodeProcess.env[config.use_env_variable], config)
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config)
+  sequelize = new Sequelize(config.url)
 }
 
 fs
