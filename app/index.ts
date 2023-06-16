@@ -6,7 +6,7 @@ const indexRouter = require('../config/routes/index')
 
 dotenv.config()
 const app = express()
-const port = 8000
+const port = process.env.PORT || 8000
 
 app.use(express.json())
 app.use(cors({
