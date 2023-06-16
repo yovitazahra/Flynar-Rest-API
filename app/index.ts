@@ -6,7 +6,8 @@ const indexRouter = require('../config/routes/index')
 
 dotenv.config()
 const app = express()
-const port = process.env.PORT || 8000
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+const port = process.env.PORT ?? 8001
 
 app.use(express.json())
 app.use(cors({
