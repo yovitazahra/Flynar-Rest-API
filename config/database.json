@@ -1,5 +1,12 @@
 {
   "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "db_flynar_dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
     "url": "postgres://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
@@ -7,16 +14,8 @@
     "host": "postgres://@containers-us-west-171.railway.app:6513/",
     "dialect": "postgres"
   },
-  "test": {
-      "url": "postgres://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
-    "username": "postgres",
-    "password": "VRd5G485z9NXuwpD83Jl",
-    "database": "railway",
-    "host": "postgres://@containers-us-west-171.railway.app:6513/",
-    "dialect": "postgres"
-  },
   "production": {
-      "url": "postgres://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
+    "url": "postgres://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
     "database": "railway",
