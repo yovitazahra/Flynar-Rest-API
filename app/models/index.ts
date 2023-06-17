@@ -10,7 +10,7 @@ const config = require(path.join(__dirname, '/../../config/database.json'))[env]
 const db: Record<string, any> = {}
 
 let sequelize: any
-if (config.use_env_variable === true) {
+if (env === 'production') {
   sequelize = new Sequelize(config.url)
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config)
