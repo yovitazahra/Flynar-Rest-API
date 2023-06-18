@@ -142,6 +142,11 @@ async function resendOtp (req: typeof Request, res: typeof Response): Promise<ty
     })
 
     if (emailSended !== false) {
+      Users.update({ otp: otpGenerated }, {
+        where: {
+          id: isExisting.id
+        }
+      })
       res.status(201).json({
         status: 'SUCCESS',
         message: 'Silahkan Periksa Email Anda'
