@@ -11,7 +11,7 @@ const { userTransformer } = require('../utils/userTransformer')
 async function usersList (req: typeof Request, res: typeof Response): Promise<any> {
   try {
     const result = await Users.findAll({
-      attributes: ['name', 'email', 'phoneNumber'],
+      attributes: ['name', 'email', 'phoneNumber', 'isVerified'],
       limit: 100
     })
     return res.status(200).json({
@@ -68,7 +68,7 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
   ) {
     return res.status(400).json({
       status: 'FAILED',
-      msg: 'Mohon Lengkapi Data'
+      message: 'Mohon Lengkapi Data'
     })
   }
 
@@ -85,7 +85,7 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
   if (isExisting !== null) {
     return res.status(400).json({
       status: 'FAILED',
-      msg: 'Email Sudah Terdaftar'
+      message: 'Email Sudah Terdaftar'
     })
   }
 
@@ -106,6 +106,54 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
       status: 'FAILED',
       message: 'Terjadi Kesalahan Pada Proses Registrasi'
     })
+  }
+}
+
+async function resendOtp (req: typeof Request, res: typeof Response): Promise<typeof Response> {
+  const { email } = req.body
+  if (email === '') {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Mohon Lengkapi E-mail'
+    })
+  }
+
+  const isExisting: any = await findUserByEmail(email)
+
+  if (isExisting === null) {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Email Tidak Ditemukan, Silahkan Daftar'
+    })
+  }
+
+  if (isExisting.isVerified === true) {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Email Sudah Diverifikasi'
+    })
+  }
+
+  const otpGenerated = generateOTP()
+  try {
+    const emailSended = await sendEmail({
+      to: email,
+      OTP: otpGenerated
+    })
+
+    if (emailSended !== false) {
+      res.status(201).json({
+        status: 'SUCCESS',
+        message: 'Silahkan Periksa Email Anda'
+      })
+    } else {
+      res.status(400).json({
+        status: 'FAILED',
+        message: 'Terjadi Kesalahan'
+      })
+    }
+  } catch (error: any) {
+    return error
   }
 }
 
@@ -329,6 +377,7 @@ module.exports = {
   usersList,
   getUserById,
   registerUsers,
+  resendOtp,
   verifyEmail,
   login,
   logout,
