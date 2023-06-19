@@ -440,12 +440,11 @@ async function updateUser(
     });
   }
   try {
-    const { name, email, phoneNumber } = req.body;
+    const { name, phoneNumber } = req.body;
     const id = req.params.id;
     const data = await Users.update(
       {
         name,
-        email,
         phoneNumber,
       },
       {
