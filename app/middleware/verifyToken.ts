@@ -11,7 +11,7 @@ const verifyToken = (req: typeof Request, res: typeof Response, next: typeof Nex
   }
 
   const authHeader = req.headers.authorization
-  const token = (Boolean(authHeader)) && authHeader.split(' ')[1]
+  const token = authHeader?.split(' ')[1]
 
   if (token === null || token === undefined) {
     return res.status(400).json({
@@ -19,8 +19,10 @@ const verifyToken = (req: typeof Request, res: typeof Response, next: typeof Nex
       message: 'Token Invalid'
     })
   }
+
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
     if (err !== null) {
+      res.cookie('refreshToken', '')
       return res.status(401).json({
         status: 'FAILED',
         message: 'Sesi Login Expired, Silahkan Login'

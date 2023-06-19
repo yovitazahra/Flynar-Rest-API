@@ -8,7 +8,10 @@ const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 const { userTransformer } = require('../utils/userTransformer')
 
-async function usersList (req: typeof Request, res: typeof Response): Promise<any> {
+async function usersList (
+  req: typeof Request,
+  res: typeof Response
+): Promise<any> {
   try {
     const result = await Users.findAll({
       attributes: ['name', 'email', 'phoneNumber', 'isVerified'],
@@ -23,15 +26,11 @@ async function usersList (req: typeof Request, res: typeof Response): Promise<an
   }
 }
 
-async function getUserById (req: typeof Request, res: typeof Response): Promise<any> {
+async function getUserById (
+  req: typeof Request,
+  res: typeof Response
+): Promise<any> {
   const refreshToken = req?.cookies?.refreshToken
-  if (refreshToken === undefined) {
-    return res.status(400).json({
-      status: 'FAILED',
-      message: 'Silahkan Login Terlebih Dahulu'
-    })
-  }
-
   try {
     const userRecord = await Users.findOne({
       where: {
@@ -58,14 +57,12 @@ async function getUserById (req: typeof Request, res: typeof Response): Promise<
   }
 }
 
-async function registerUsers (req: typeof Request, res: typeof Response): Promise<typeof Response> {
+async function registerUsers (
+  req: typeof Request,
+  res: typeof Response
+): Promise<typeof Response> {
   const { name, email, password, phoneNumber } = req.body
-  if (
-    name === '' ||
-    email === '' ||
-    password === '' ||
-    phoneNumber === ''
-  ) {
+  if (name === '' || email === '' || password === '' || phoneNumber === '') {
     return res.status(400).json({
       status: 'FAILED',
       message: 'Mohon Lengkapi Data'
@@ -89,12 +86,7 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
     })
   }
 
-  const newUser = await createUser(
-    name,
-    email,
-    password,
-    phoneNumber
-  )
+  const newUser = await createUser(name, email, password, phoneNumber)
 
   if (newUser !== false) {
     res.status(201).json({
@@ -109,7 +101,10 @@ async function registerUsers (req: typeof Request, res: typeof Response): Promis
   }
 }
 
-async function resendOtp (req: typeof Request, res: typeof Response): Promise<typeof Response> {
+async function resendOtp (
+  req: typeof Request,
+  res: typeof Response
+): Promise<typeof Response> {
   const { email } = req.body
   if (email === '') {
     return res.status(400).json({
@@ -142,11 +137,14 @@ async function resendOtp (req: typeof Request, res: typeof Response): Promise<ty
     })
 
     if (emailSended !== false) {
-      Users.update({ otp: otpGenerated }, {
-        where: {
-          id: isExisting.id
+      Users.update(
+        { otp: otpGenerated },
+        {
+          where: {
+            id: isExisting.id
+          }
         }
-      })
+      )
       res.status(201).json({
         status: 'SUCCESS',
         message: 'Silahkan Periksa Email Anda'
@@ -162,7 +160,9 @@ async function resendOtp (req: typeof Request, res: typeof Response): Promise<ty
   }
 }
 
-async function findUserByEmail (email: string): Promise<boolean | Record<string, any>> {
+async function findUserByEmail (
+  email: string
+): Promise<boolean | Record<string, any>> {
   const user = await Users.findOne({
     where: { email }
   })
@@ -194,7 +194,11 @@ async function createUser (
         isVerified: false
       })
 
-      const returnValue = { name: newUser.name, email: newUser.email, phoneNumber: newUser.phoneNumber }
+      const returnValue = {
+        name: newUser.name,
+        email: newUser.email,
+        phoneNumber: newUser.phoneNumber
+      }
       return returnValue
     } else {
       return false
@@ -204,7 +208,10 @@ async function createUser (
   }
 }
 
-async function verifyEmail (req: typeof Request, res: typeof Response): Promise<typeof Response> {
+async function verifyEmail (
+  req: typeof Request,
+  res: typeof Response
+): Promise<typeof Response> {
   const { email, otp } = req.body
   const user = await validateRegisterUser(email, otp)
   if (user[0] !== 200) {
@@ -219,7 +226,10 @@ async function verifyEmail (req: typeof Request, res: typeof Response): Promise<
   })
 }
 
-async function validateRegisterUser (email: string, otp: number): Promise<typeof Response> {
+async function validateRegisterUser (
+  email: string,
+  otp: number
+): Promise<typeof Response> {
   const user = await Users.findOne({
     where: { email }
   })
@@ -229,8 +239,7 @@ async function validateRegisterUser (email: string, otp: number): Promise<typeof
   if (user !== null && user.otp !== otp) {
     return [401, 'Invalid OTP']
   }
-  await Users.update({ isVerified: true },
-    { where: { email } })
+  await Users.update({ isVerified: true }, { where: { email } })
   return [200, 'Verifikasi Berhasil']
 }
 
@@ -238,17 +247,26 @@ async function isEmailValid (email: string): Promise<Record<string, any>> {
   return emailValidator.validate(email)
 }
 
-async function login (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> {
+async function login (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
   const { identifier, password } = req.body
   let refreshToken = req?.cookies?.refreshToken
 
   try {
-    if (refreshToken !== undefined) {
+    if (refreshToken !== '' && refreshToken !== undefined) {
       res.status(400).json({
         status: 'FAILED',
         message: 'Anda Sudah Login'
       })
-    } else if (identifier === undefined || identifier === '' || password === undefined || password === '') {
+    } else if (
+      identifier === undefined ||
+      identifier === '' ||
+      password === undefined ||
+      password === ''
+    ) {
       res.status(400).json({
         status: 'FAILED',
         message: 'Lengkapi Email/Nomor Telepon dan Password'
@@ -276,19 +294,30 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
             message: 'Password Salah'
           })
         } else {
-          const { name, email } = user
+          const { email } = user
           const userId = user.id
-          const accessToken = jwt.sign({ id: userId, email, name }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1d'
-          })
-          refreshToken = jwt.sign({ id: userId, email, name }, process.env.REFRESH_TOKEN_SECRET, {
-            expiresIn: '30d'
-          })
-          await Users.update({ refreshToken }, {
-            where: {
-              id: userId
+          const accessToken = jwt.sign(
+            { id: userId, email },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+              expiresIn: '1d'
             }
-          })
+          )
+          refreshToken = jwt.sign(
+            { id: userId, email },
+            process.env.REFRESH_TOKEN_SECRET,
+            {
+              expiresIn: '30 days'
+            }
+          )
+          await Users.update(
+            { refreshToken },
+            {
+              where: {
+                id: userId
+              }
+            }
+          )
           res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
@@ -307,7 +336,11 @@ async function login (req: typeof Request, res: typeof Response, next: typeof Ne
   }
 }
 
-async function logout (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> {
+async function logout (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
   try {
     const refreshToken = req?.cookies?.refreshToken
     if (refreshToken === undefined) {
@@ -321,9 +354,12 @@ async function logout (req: typeof Request, res: typeof Response, next: typeof N
     })
 
     if (user[0] !== undefined) {
-      await Users.update({ refreshToken: null }, {
-        where: { id: user[0].id }
-      })
+      await Users.update(
+        { refreshToken: null },
+        {
+          where: { id: user[0].id }
+        }
+      )
     }
 
     res.clearCookie('refreshToken')
@@ -336,7 +372,11 @@ async function logout (req: typeof Request, res: typeof Response, next: typeof N
   }
 }
 
-async function refreshAccessToken (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> {
+async function refreshAccessToken (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
   try {
     const refreshToken = req?.cookies?.refreshToken
     if (refreshToken === undefined) {
@@ -365,14 +405,55 @@ async function refreshAccessToken (req: typeof Request, res: typeof Response, ne
         })
       }
 
-      const { id, email, name } = user[0]
-      const accessToken = jwt.sign({ id, email, name }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '1d'
-      })
+      const { id, email } = user[0]
+      const accessToken = jwt.sign(
+        { id, email },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: '1d'
+        }
+      )
       res.json({ accessToken })
     })
   } catch (err) {
     console.log(err)
+  }
+}
+
+async function updateUser (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
+  try {
+    const { name, phoneNumber } = req.body
+    const refreshToken = req?.cookies?.refreshToken
+    const data = await Users.update(
+      {
+        name,
+        phoneNumber
+      },
+      {
+        where: { refreshToken }
+      }
+    )
+    if (data === null) {
+      return res.status(400).json({
+        status: 'SUCCESS',
+        message: 'Profil Gagal Diperbarui'
+      })
+    }
+    return res.status(200).json({
+      status: 'SUCCESS',
+      message: 'Profil Berhasil Diperbarui'
+    })
+  } catch (err) {
+    if (err instanceof Error) {
+      return res.status(500).json({
+        status: 'FAILED',
+        message: err.message
+      })
+    }
   }
 }
 
@@ -386,5 +467,6 @@ module.exports = {
   verifyEmail,
   login,
   logout,
-  refreshAccessToken
+  refreshAccessToken,
+  updateUser
 }
