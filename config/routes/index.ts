@@ -35,8 +35,8 @@ router.post('/api/v1/register', registerUsers)
 router.post('/api/v1/resend-otp', resendOtp)
 router.post('/api/v1/verify', verifyEmail)
 router.post('/api/v1/login', login)
+router.put('/api/v1/profile/update', verifyToken, updateUser)
 router.delete('/api/v1/logout', logout)
-router.put('/api/v1/user/:id', verifyToken, updateUser)
 
 // flights
 router.get('/api/v1/flights', flightList)

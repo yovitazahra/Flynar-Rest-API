@@ -31,13 +31,6 @@ async function getUserById (
   res: typeof Response
 ): Promise<any> {
   const refreshToken = req?.cookies?.refreshToken
-  if (refreshToken === undefined) {
-    return res.status(400).json({
-      status: 'FAILED',
-      message: 'Silahkan Login Terlebih Dahulu'
-    })
-  }
-
   try {
     const userRecord = await Users.findOne({
       where: {
@@ -263,7 +256,7 @@ async function login (
   let refreshToken = req?.cookies?.refreshToken
 
   try {
-    if (refreshToken !== undefined) {
+    if (refreshToken !== '' && refreshToken !== undefined) {
       res.status(400).json({
         status: 'FAILED',
         message: 'Anda Sudah Login'
@@ -301,20 +294,20 @@ async function login (
             message: 'Password Salah'
           })
         } else {
-          const { name, email } = user
+          const { email } = user
           const userId = user.id
           const accessToken = jwt.sign(
-            { id: userId, email, name },
+            { id: userId, email },
             process.env.ACCESS_TOKEN_SECRET,
             {
               expiresIn: '1d'
             }
           )
           refreshToken = jwt.sign(
-            { id: userId, email, name },
+            { id: userId, email },
             process.env.REFRESH_TOKEN_SECRET,
             {
-              expiresIn: '30d'
+              expiresIn: '30 days'
             }
           )
           await Users.update(
@@ -412,9 +405,9 @@ async function refreshAccessToken (
         })
       }
 
-      const { id, email, name } = user[0]
+      const { id, email } = user[0]
       const accessToken = jwt.sign(
-        { id, email, name },
+        { id, email },
         process.env.ACCESS_TOKEN_SECRET,
         {
           expiresIn: '1d'
@@ -432,36 +425,27 @@ async function updateUser (
   res: typeof Response,
   next: typeof NextFunction
 ): Promise<any> {
-  const refreshToken = req?.cookies?.refreshToken
-  if (refreshToken === undefined) {
-    return res.status(400).json({
-      status: 'FAILED',
-      message: 'Silahkan Login Terlebih Dahulu'
-    })
-  }
   try {
     const { name, phoneNumber } = req.body
-    const id = req.params.id
+    const refreshToken = req?.cookies?.refreshToken
     const data = await Users.update(
       {
         name,
         phoneNumber
       },
       {
-        where: { id }
+        where: { refreshToken }
       }
     )
     if (data === null) {
       return res.status(400).json({
         status: 'SUCCESS',
-        message: 'Data Berhasil diperbaharui',
-        data
+        message: 'Profil Gagal Diperbarui'
       })
     }
     return res.status(200).json({
       status: 'SUCCESS',
-      message: 'Data Berhasil diperbaharui',
-      data
+      message: 'Profil Berhasil Diperbarui'
     })
   } catch (err) {
     if (err instanceof Error) {
