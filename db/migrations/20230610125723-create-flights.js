@@ -1,106 +1,106 @@
-"use strict";
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Flights", {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('Flights', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
       },
       flightCode: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       airline: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       departureAirport: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       arrivalAirport: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       departureCity: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       arrivalCity: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       departureDate: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       arrivalDate: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       departureTime: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       arrivalTime: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       label: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       economyPrice: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       economyCapacity: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       premiumEconomyPrice: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       premiumEconomyCapacity: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       businessPrice: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       businessCapacity: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       firstClassPrice: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       firstClassCapacity: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       additionalInformation: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-      },
-    });
+        type: Sequelize.DATE
+      }
+    })
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Flights");
-  },
-};
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('Flights')
+  }
+}
