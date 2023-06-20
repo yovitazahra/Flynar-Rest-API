@@ -6,6 +6,10 @@ const {
   flightDetail
 } = require('../../app/controllers/flightsController')
 const {
+  ticketList,
+  ticketDetail
+} = require('../../app/controllers/ticketsController')
+const {
   registerUsers,
   verifyEmail,
   usersList,
@@ -41,6 +45,10 @@ router.delete('/api/v1/logout', logout)
 // flights
 router.get('/api/v1/flights', flightList)
 router.get('/api/v1/flights/:id', flightDetail)
+
+// tickets
+router.get('/api/v1/tickets', ticketList)
+router.get('/api/v1/tickets/:id', ticketDetail)
 
 export {}
 
