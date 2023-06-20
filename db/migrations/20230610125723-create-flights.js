@@ -50,53 +50,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      // label: {
-      //   type: Sequelize.STRING,
-      //   allowNull: false
-      // },
-      // economyPrice: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // economyCapacity: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // premiumEconomyPrice: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // premiumEconomyCapacity: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // businessPrice: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // businessCapacity: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // firstClassPrice: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // firstClassCapacity: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // additionalInformation: {
-      //   type: Sequelize.STRING,
-      //   allowNull: false
-      // },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       }
     })
   },
