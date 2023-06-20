@@ -1,6 +1,7 @@
 const { Flights } = require('../models/index')
 const { Request, Response, NextFunction } = require('express')
 
+
 module.exports = {
   flightList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
@@ -36,4 +37,4 @@ module.exports = {
   }
 }
 
-export {}
+export { }

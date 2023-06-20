@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      class: {
+      classSeat: {
         type: Sequelize.STRING,
         allowNull: false
       },
