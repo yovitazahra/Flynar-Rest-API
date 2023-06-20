@@ -4,7 +4,7 @@ const { Model } = require('sequelize')
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
-  class Users extends Model {
+  class Tickets extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,46 +14,42 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       // define association here
     }
   }
-  Users.init({
+  Tickets.init({
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    otp: {
+    flightId: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    refreshToken: {
+    class: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
+    },
+    total: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    label: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    additionalInformation: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Users'
+    modelName: 'Tickets'
   })
-  return Users
+  return Tickets
 }
 
 export {}

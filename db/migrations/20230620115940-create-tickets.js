@@ -3,50 +3,34 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Flights', {
+    await queryInterface.createTable('Tickets', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      flightCode: {
+      flightId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      class: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      airline: {
+      total: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      label: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      departureAirport: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      arrivalAirport: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      departureCity: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      arrivalCity: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      departureDate: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      arrivalDate: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      departureTime: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      arrivalTime: {
+      additionalInformation: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -61,6 +45,6 @@ module.exports = {
     })
   },
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Flights')
+    await queryInterface.dropTable('Tickets')
   }
 }
