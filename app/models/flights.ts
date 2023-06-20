@@ -1,6 +1,7 @@
 'use strict'
 
 const { Model } = require('sequelize')
+const Sequelize = require('sequelize')
 
 module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
   class Flights extends Model {
@@ -60,46 +61,6 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     }
-    // label: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false
-    // },
-    // economyPrice: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // economyCapacity: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // premiumEconomyPrice: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // premiumEconomyCapacity: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // businessPrice: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // businessCapacity: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // firstClassPrice: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // firstClassCapacity: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false
-    // },
-    // additionalInformation: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false
-    // }
   }, {
     sequelize,
     modelName: 'Flights'
