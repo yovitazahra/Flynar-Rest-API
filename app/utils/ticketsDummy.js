@@ -24,16 +24,18 @@ const ticketsDummy = () => {
 
   for (let i = 0; i < 2100; i++) {
     for (let j = 0; j < pricesAndCapacities[i % pricesAndCapacities.length].length; j++) {
-      item.flightId = i + 1
-      item.class = pricesAndCapacities[i % pricesAndCapacities.length][j].class
-      item.price = pricesAndCapacities[i % pricesAndCapacities.length][j].price
-      item.total = pricesAndCapacities[i % pricesAndCapacities.length][j].total
-      item.label = pricesAndCapacities[i % pricesAndCapacities.length][j].label
-      item.additionalInformation = pricesAndCapacities[i % pricesAndCapacities.length][j].additionalInformation
-      item.createdAt = new Date()
-      item.updatedAt = new Date()
-      tickets.push(item)
-      item = {}
+      if (pricesAndCapacities[i % pricesAndCapacities.length][j].total > 0) {
+        item.flightId = i + 1
+        item.class = pricesAndCapacities[i % pricesAndCapacities.length][j].class
+        item.price = pricesAndCapacities[i % pricesAndCapacities.length][j].price
+        item.total = pricesAndCapacities[i % pricesAndCapacities.length][j].total
+        item.label = pricesAndCapacities[i % pricesAndCapacities.length][j].label
+        item.additionalInformation = pricesAndCapacities[i % pricesAndCapacities.length][j].additionalInformation
+        item.createdAt = new Date()
+        item.updatedAt = new Date()
+        tickets.push(item)
+        item = {}
+      }
     }
   }
 
