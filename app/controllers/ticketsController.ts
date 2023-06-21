@@ -86,7 +86,7 @@ module.exports = {
       if (sortBy === 'price') {
         sortedData = await Tickets.findAll({
           limit: 100,
-          order: [['price', 'ASC']],
+          order: [['price', 'ASC']]
         });
       } 
       // durasi terpendek
@@ -94,7 +94,7 @@ module.exports = {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'duration', 'ASC']],
+          order: [[{ model: Flights }, 'duration', 'ASC']]
         })
       } 
       // keberangkatan paling awal
@@ -102,7 +102,7 @@ module.exports = {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'departureDate', 'ASC']],
+          order: [[{ model: Flights }, 'departureDate', 'ASC']]
         })
       }
       // keberangkatan paling akhir
@@ -110,7 +110,7 @@ module.exports = {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'departureDate', 'DESC']],
+          order: [[{ model: Flights }, 'departureDate', 'DESC']]
         })
       }
       // kedatangan paling awal
@@ -118,7 +118,7 @@ module.exports = {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'ASC']],
+          order: [[{ model: Flights }, 'arrivalDate', 'ASC']]
         })
       }
       // kedatangan paling akhir
@@ -126,12 +126,12 @@ module.exports = {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'DESC']],
+          order: [[{ model: Flights }, 'arrivalDate', 'DESC']]
         })
       }
       else {
         sortedData = await Tickets.findAll({
-          include: [{ model: Flights }],
+          include: [{ model: Flights }]
         })
       }
 
