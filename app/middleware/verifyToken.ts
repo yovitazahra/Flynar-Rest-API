@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const { Request, Response, NextFunction } = require('express')
-const { Users } = require('../models/index')
 
 const verifyToken = (
   req: typeof Request,

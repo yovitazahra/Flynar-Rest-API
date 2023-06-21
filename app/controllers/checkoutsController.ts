@@ -1,9 +1,10 @@
 const { Request, Response, NextFunction } = require('express')
 const { Users, Checkouts } = require('../models/index')
 
-async function createCheckout(
+async function createCheckout (
   req: typeof Request,
-  res: typeof Response
+  res: typeof Response,
+  next: typeof NextFunction
 ): Promise<any> {
   const {
     fullName,
@@ -40,7 +41,7 @@ async function createCheckout(
   }
 }
 
-async function getCheckouts(
+async function getCheckouts (
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
