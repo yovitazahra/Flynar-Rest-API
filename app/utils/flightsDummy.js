@@ -60,15 +60,18 @@ const flightsDummy = () => {
 
   const times = [{
       departureTime: '08:00:00.000',
-      arrivalTime: '12:00:00.000'
+      arrivalTime: '12:00:00.000',
+      duration: '04:00:00.000'
     },
     {
       departureTime: '13:15:00.000',
-      arrivalTime: '17:15:00.000'
+      arrivalTime: '17:15:00.000',
+      duration: '04:00:00.000'
     },
     {
       departureTime: '20:15:00.000',
-      arrivalTime: '23:30:00.000'
+      arrivalTime: '23:30:00.000',
+      duration: '03:15:00.000'
     }
   ]
 
@@ -96,6 +99,7 @@ const flightsDummy = () => {
             item.arrivalDate = dates[i]
             item.departureTime = times[m].departureTime
             item.arrivalTime = times[m].arrivalTime
+            item.duration = times[m].duration
             item.createdAt = new Date()
             item.updatedAt = new Date()
             flights.push(item)
