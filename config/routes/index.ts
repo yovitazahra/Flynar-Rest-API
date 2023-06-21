@@ -21,6 +21,10 @@ const {
   updateUser
 } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
+const {
+  createCheckout,
+  getCheckouts
+} = require('../../app/controllers/checkoutController')
 
 router.get(
   '/api/v1/',
@@ -50,6 +54,9 @@ router.get('/api/v1/flights/:id', flightDetail)
 router.get('/api/v1/tickets', ticketList)
 router.get('/api/v1/tickets/:id', ticketDetail)
 
+// checkout
+router.post('/api/v1/checkouts', verifyToken, createCheckout)
+router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 export {}
 
 module.exports = router

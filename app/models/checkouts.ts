@@ -1,10 +1,8 @@
 'use strict'
-
 const { Model } = require('sequelize')
 const Sequelize = require('sequelize')
-
 module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
-  class Flights extends Model {
+  class Checkouts extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,7 +12,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       // define association here
     }
   }
-  Flights.init(
+  Checkouts.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -22,58 +20,51 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         autoIncrement: true,
         primaryKey: true
       },
-      flightCode: {
+      fullName: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      airline: {
+      familyName: {
+        type: DataTypes.STRING
+      },
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      departureAirport: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      arrivalAirport: {
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      total: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      status: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      departureCity: {
-        type: DataTypes.STRING,
+      userId: {
+        type: DataTypes.INTEGER,
         allowNull: false
       },
-      arrivalCity: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      departureDate: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      arrivalDate: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      departureTime: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      arrivalTime: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      checkoutId: {
+      ticketId: {
         type: DataTypes.INTEGER,
         allowNull: false
       }
     },
     {
       sequelize,
-      modelName: 'Flights'
+      modelName: 'Checkouts'
     }
   )
-
-  return Flights
+  Checkouts.associate = function (models) {
+    Checkouts.belongsTo(models.Users, {
+      foreignKey: 'userId'
+    })
+  }
+  return Checkouts
 }
-
-export {}
