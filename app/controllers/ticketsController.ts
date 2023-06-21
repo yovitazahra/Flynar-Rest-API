@@ -38,7 +38,7 @@ module.exports = {
   },
 
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    let { classSeat, departureAirport, arrivalAirport } = req.query
+    let { departureAirport, arrivalAirport,classSeat } = req.query
 
     try {
       const data = await Tickets.findAll({
@@ -61,10 +61,55 @@ module.exports = {
         }
       })
 
+      if(data.length === 0) {
+        return res.status(404).json({message:'Maaf pencarian anda tidak ditemukan'})
+      }
+
       return res.status(200).json({
         message: 'SUCCESS',
         count,
         data
+      })
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Kesalahan pada server' });
+    }
+  },
+  filterFlightTickets:async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+    try {
+      
+      const sortBy = req.query.sortBy
+
+      const data = await Tickets.findAll({
+        limit: 100,
+        include: "Flight"
+      })
+
+        const nestedSortFunction = (a:any,b:any) =>{
+          // harga
+        if(sortBy === 'price'){
+          return a.price - b.price
+          // keberangkatan awal
+        }else if(sortBy === '$Flight.departureDate'){
+          return a.departureDate - b.departureDate
+          // keberangkatan akhir
+        }else if(sortBy === '$Flight.departureDate'){
+          return b.departureDate - a.departureDate
+          // kedatangan awal
+        }else if(sortBy === '$Flight.arrivalDate'){
+          return a.arrivalDate - b.arrivalDate
+          // kedatangan akhir
+        }else if(sortBy === '$Flight.arrivalDate'){
+          return b.arrivalDate - a.arrivalDate
+        }
+      }
+
+      const sortedData = data.sort(nestedSortFunction)
+
+      return res.status(200).json({
+        message: 'SUCCESS',
+        sortedData
       })
 
     } catch (error) {
