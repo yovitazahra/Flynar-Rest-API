@@ -2,55 +2,55 @@ const flightsDummy = () => {
   const dates = ['2023-07-06', '2023-07-07', '2023-07-08', '2023-07-09', '2023-07-10', '2023-07-11', '2023-07-12']
 
   const airlines = [{
-      name: 'Jet Air',
-      code: 'JT'
-    },
-    // { name: 'TransNusa', code: 'TN' },
-    {
-      name: 'Lion Air',
-      code: 'LA'
-    },
-    {
-      name: 'Garuda Indonesia',
-      code: 'GI'
-    },
-    {
-      name: 'AirAsia Indonesia',
-      code: 'AA'
-    },
+    name: 'Jet Air',
+    code: 'JT'
+  },
+  {
+    name: 'Lion Air',
+    code: 'LA'
+  },
+  {
+    name: 'Garuda Indonesia',
+    code: 'GI'
+  },
+  {
+    name: 'AirAsia Indonesia',
+    code: 'AA'
+  },
+  {
+    name: 'Etihad Airways',
+    code: 'EA'
+  },
     // { name: 'Batik Air', code: 'BA' },
-    {
-      name: 'Emirates',
-      code: 'ES'
-    }
-    // { name: 'Etihad Airways', code: 'EA' },
+    // { name: 'TransNusa', code: 'TN' },
+    // {name: 'Emirates',  code: 'ES' }
     // { name: 'Sriwijaya Air', code: 'SA' }
     // { name: 'Citilink', code: 'CL' }
   ]
 
   const citiesAndAirports = [{
-      city: 'Jakarta',
-      airport: 'Bandara Soekarno Hatta'
-    },
-    // { city: 'Tokyo', airport: 'Haneda Airport' },
-    {
-      city: 'Surabaya',
-      airport: 'Bandara Djuanda'
-    },
-    {
-      city: 'Denpasar',
-      airport: 'Bandara Internasional Ngurah Rai'
-    },
-    {
-      city: 'Medan',
-      airport: 'Bandara Internasional Kualanamu'
-    },
-    // { city: 'Los Angeles', airport: 'Los Angeles International Airport' },
-    // { city: 'New York', airport: 'John F Kennedy International Airport' },
-    {
-      city: 'Makassar',
-      airport: 'Bandara Hasanuddin'
-    }
+    city: 'Jakarta',
+    airport: 'Bandara Soekarno Hatta'
+  },
+  // { city: 'Tokyo', airport: 'Haneda Airport' },
+  {
+    city: 'Surabaya',
+    airport: 'Bandara Djuanda'
+  },
+  {
+    city: 'Denpasar',
+    airport: 'Bandara Internasional Ngurah Rai'
+  },
+  {
+    city: 'Medan',
+    airport: 'Bandara Internasional Kualanamu'
+  },
+  // { city: 'Los Angeles', airport: 'Los Angeles International Airport' },
+  // { city: 'New York', airport: 'John F Kennedy International Airport' },
+  {
+    city: 'Makassar',
+    airport: 'Bandara Hasanuddin'
+  }
     // { city: 'Bangkok', airport: 'Suvarnabhumi Airport' },
     // { city: 'Sydney', airport: 'Sydney Airport' }
     // { city: 'Istanbul', airport: 'Istanbul Airport' }
@@ -59,23 +59,23 @@ const flightsDummy = () => {
   ]
 
   const times = [{
-      departureTime: '08:00:00.000',
-      arrivalTime: '12:00:00.000',
-      duration: '04:00:00.000'
-    },
-    {
-      departureTime: '13:15:00.000',
-      arrivalTime: '17:15:00.000',
-      duration: '04:00:00.000'
-    },
-    {
-      departureTime: '20:15:00.000',
-      arrivalTime: '23:30:00.000',
-      duration: '03:15:00.000'
-    }
+    departureTime: '08:00:00.000',
+    arrivalTime: '12:00:00.000',
+    duration: '04:00:00.000'
+  },
+  {
+    departureTime: '13:15:00.000',
+    arrivalTime: '17:15:00.000',
+    duration: '04:00:00.000'
+  },
+  {
+    departureTime: '20:15:00.000',
+    arrivalTime: '23:30:00.000',
+    duration: '03:15:00.000'
+  }
   ]
 
-  
+
 
   const flights = []
 
