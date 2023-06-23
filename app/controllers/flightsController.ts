@@ -15,7 +15,7 @@ module.exports = {
         flights: result
       })
     } catch (err) {
-      console.log(err)
+      return res.status(500).json({message:'Kesalahan pada server'})
     }
   },
   flightDetail: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
@@ -32,7 +32,7 @@ module.exports = {
         flight: result
       })
     } catch (err) {
-      console.log(err)
+      return res.status(500).json({message:'Kesalahan pada server'})
     }
   }
 }

@@ -16,7 +16,7 @@ module.exports = {
         tickets: result
       })
     } catch (err) {
-      console.log(err)
+      return res.status(500).json({message:'Kesalahan pada server'})
     }
   },
   ticketDetail: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
@@ -33,10 +33,9 @@ module.exports = {
         ticket: result
       })
     } catch (err) {
-      console.log(err)
+      return res.status(500).json({message:'Kesalahan pada server'})
     }
   },
-
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     let { departureAirport, arrivalAirport, classSeat } = req.query
 
@@ -73,7 +72,7 @@ module.exports = {
 
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Kesalahan pada server' });
+      res.status(500).json({ message: 'Kesalahan pada server' })
     }
   },
   filterFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
