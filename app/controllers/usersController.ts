@@ -73,7 +73,7 @@ async function registerUsers (
   if (valid === false) {
     return res.status(400).send({
       status: 'FAILED',
-      message: 'Masukkan Alamat Email Yang Valid',
+      message: 'Email Tidak Ditemukan',
       reason: validators[reason].reason
     })
   }
