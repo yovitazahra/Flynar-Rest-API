@@ -55,7 +55,7 @@ router.get('/api/v1/tickets', ticketList)
 router.get('/api/v1/tickets/:id', ticketDetail)
 
 // checkouts
-router.post('/api/v1/checkouts', verifyToken, createCheckout)
+router.post('/api/v1/checkout', verifyToken, createCheckout)
 router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 export {}
 

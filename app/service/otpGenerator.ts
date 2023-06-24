@@ -16,8 +16,8 @@ async function verifyOTP (req: typeof Request, res: typeof Response, next: typeo
     req.app.locals.OTP = null // reset the OTP value
     req.app.locals.resetSession = true // start session for reset password
     return res.status(201).json({
-      status: 'success',
-      msg: 'Verify Successfully'
+      status: 'SUCCESS',
+      message: 'Verify Successfully'
     })
   }
   return res.status(400).send({ error: 'Invalid OTP' })

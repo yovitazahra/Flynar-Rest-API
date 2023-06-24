@@ -30,13 +30,13 @@ async function createCheckout (
     })
 
     res.status(201).json({
-      status: 'success',
+      status: 'SUCCESS',
       data: newCheckout
     })
   } catch (error: any) {
     res.status(400).json({
-      status: 'failed',
-      msg: error.message
+      status: 'FAILED',
+      message: error.message
     })
   }
 }
@@ -49,17 +49,18 @@ async function getCheckouts (
     const data = await Checkouts.findAll({
       include: {
         model: Users,
+        as: 'user',
         attributes: ['id', 'name']
       }
     })
     res.status(200).json({
-      status: 'success',
+      status: 'SUCCESS',
       data
     })
   } catch (error: any) {
     res.status(404).json({
-      status: 'failed',
-      msg: error.message
+      status: 'FAILED',
+      message: error.message
     })
   }
 }
