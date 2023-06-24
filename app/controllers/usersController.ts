@@ -1,7 +1,7 @@
 const { Request, Response, NextFunction } = require('express')
 const bcrypt = require('bcrypt')
 const { Users } = require('../models/index')
-const { sendEmail } = require('../service/sendEmail')
+const { sendResetPasswordEmail, sendOtpEmail } = require('../service/sendEmail')
 const { generateOTP } = require('../service/otpGenerator')
 const emailValidator = require('deep-email-validator')
 const jwt = require('jsonwebtoken')
@@ -131,7 +131,7 @@ async function resendOtp (
 
   const otpGenerated = generateOTP()
   try {
-    const emailSended = await sendEmail({
+    const emailSended = await sendOtpEmail({
       to: email,
       OTP: otpGenerated
     })
@@ -179,7 +179,7 @@ async function createUser (
   const otpGenerated = generateOTP()
 
   try {
-    const emailSended = await sendEmail({
+    const emailSended = await sendOtpEmail({
       to: email,
       OTP: otpGenerated
     })
@@ -457,6 +457,53 @@ async function updateUser (
   }
 }
 
+async function forgotPassword (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
+  const { email } = req.body
+
+  try {
+    const user = await Users.findOne({ where: { email } })
+
+    if (user !== null) {
+      if (user.isVerified === false) {
+        return res.status(401).json({
+          status: 'FAILED',
+          message: 'Silahkan Verifikasi Akun Ini'
+        })
+      }
+
+      const token = jwt.sign({ id: user._id }, process.env.RESET_PASSWORD_SECRET, { expiresIn: '5m' })
+      const emailSended = await sendResetPasswordEmail({
+        to: email,
+        token
+      })
+
+      if (emailSended !== false) {
+        await user.update({ resetPasswordToken: token })
+        res.status(201).json({
+          status: 'SUCCESS',
+          message: 'Silahkan Periksa Email Anda'
+        })
+      } else {
+        res.status(400).json({
+          status: 'FAILED',
+          message: 'Terjadi Kesalahan'
+        })
+      }
+    } else {
+      res.status(404).json({
+        status: 'FAILED',
+        message: 'Akun Belum Terdaftar'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {}
 
 module.exports = {
@@ -468,5 +515,6 @@ module.exports = {
   login,
   logout,
   refreshAccessToken,
-  updateUser
+  updateUser,
+  forgotPassword
 }

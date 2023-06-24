@@ -10,7 +10,7 @@ const MAIL_SETTINGS = {
   }
 }
 
-const sendEmail = async (params: { to: string, OTP: number }): Promise<any> => {
+const sendOtpEmail = async (params: { to: string, OTP: number }): Promise<any> => {
   try {
     const transporter = nodemailer.createTransport(MAIL_SETTINGS)
     const info = await transporter.sendMail({
@@ -36,6 +36,30 @@ const sendEmail = async (params: { to: string, OTP: number }): Promise<any> => {
   }
 }
 
+const sendResetPasswordEmail = async (params: { to: string, token: string }): Promise<any> => {
+  try {
+    const transporter = nodemailer.createTransport(MAIL_SETTINGS)
+    const info = await transporter.sendMail({
+      from: MAIL_SETTINGS.auth.user,
+      to: params.to,
+      subject: 'Flynar Reset Password Link',
+      html: `
+        <div
+          class="container"
+          style="max-width: 90%; margin: auto; padding-top: 20px"
+        >
+          <h2>Reset Password Flynar.</h2>
+          <a href="${process?.env?.CLIENT_URL ?? 'http://localhost:3000'}/reset-password?token=${params.token}" target="_blank" style="margin-bottom: 30px;">Please follow this link for reset your password</p>
+      </div>
+      `
+    })
+    return info
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
 export {}
 
-module.exports = { sendEmail }
+module.exports = { sendOtpEmail, sendResetPasswordEmail }
