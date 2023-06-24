@@ -1,4 +1,4 @@
-const { Flights, Tickets } = require('../models/index')
+const { Flights } = require('../models/index')
 const { Request, Response, NextFunction } = require('express')
 
 module.exports = {

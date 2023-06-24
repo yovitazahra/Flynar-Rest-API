@@ -11,7 +11,8 @@ module.exports = {
       const result = await Tickets.findAll({
         limit: 100,
         include: {
-          model: Flights
+          model: Flights,
+          as: 'flight'
         }
       })
       const total = await Tickets.count()
@@ -30,7 +31,13 @@ module.exports = {
     next: typeof NextFunction
   ): Promise<any> => {
     try {
-      const result = await Tickets.findOne({ where: { id: req.params.id } })
+      const result = await Tickets.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: Flights,
+          as: 'flight'
+        }
+      })
       if (result === null) {
         return res.status(404).json({
           status: 'FAILED',
