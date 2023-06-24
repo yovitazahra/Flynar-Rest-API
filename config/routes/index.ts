@@ -19,7 +19,8 @@ const {
   refreshAccessToken,
   resendOtp,
   updateUser,
-  forgotPassword
+  forgotPassword,
+  resetPassword
 } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
 
@@ -42,6 +43,7 @@ router.post('/api/v1/verify', verifyEmail)
 router.post('/api/v1/login', login)
 router.put('/api/v1/profile/update', verifyToken, updateUser)
 router.put('/api/v1/forgot-password', forgotPassword)
+router.put('/api/v1/reset-password', resetPassword)
 router.delete('/api/v1/logout', logout)
 
 // flights
