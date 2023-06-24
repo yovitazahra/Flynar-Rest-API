@@ -14,57 +14,65 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       // define association here
     }
   }
-  Flights.init({
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true
+  Flights.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      flightCode: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      airline: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      departureAirport: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      arrivalAirport: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      departureCity: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      arrivalCity: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      departureDate: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      arrivalDate: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      departureTime: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      arrivalTime: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
-    flightCode: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    airline: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    departureAirport: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    arrivalAirport: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    departureCity: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    arrivalCity: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    departureDate: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    arrivalDate: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    departureTime: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    arrivalTime: {
-      type: DataTypes.STRING,
-      allowNull: false
+    {
+      sequelize,
+      modelName: 'Flights'
     }
-  }, {
-    sequelize,
-    modelName: 'Flights'
-  })
+  )
+  Flights.associate = function (models) {
+    Flights.hasMany(models.Users, {
+      foreignKey: 'flightId'
+    })
+  }
   return Flights
 }
 

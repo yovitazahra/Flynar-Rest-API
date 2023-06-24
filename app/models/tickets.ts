@@ -14,41 +14,50 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       // define association here
     }
   }
-  Tickets.init({
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true
+  Tickets.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      flightId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      class: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      total: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      label: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      additionalInformation: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
-    flightId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    class: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    total: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    label: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    additionalInformation: {
-      type: DataTypes.STRING,
-      allowNull: false
+    {
+      sequelize,
+      modelName: 'Tickets'
     }
-  }, {
-    sequelize,
-    modelName: 'Tickets'
-  })
+  )
+  Tickets.associate = function (models) {
+    Tickets.belongsTo(models.Flights, {
+      foreignKey: 'flightId',
+      as: 'flight'
+    })
+  }
   return Tickets
 }
 

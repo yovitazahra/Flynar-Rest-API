@@ -2,7 +2,11 @@ const { Flights } = require('../models/index')
 const { Request, Response, NextFunction } = require('express')
 
 module.exports = {
-  flightList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+  flightList: async (
+    req: typeof Request,
+    res: typeof Response,
+    next: typeof NextFunction
+  ): Promise<any> => {
     try {
       const result = await Flights.findAll({
         limit: 100
@@ -17,7 +21,11 @@ module.exports = {
       console.log(err)
     }
   },
-  flightDetail: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+  flightDetail: async (
+    req: typeof Request,
+    res: typeof Response,
+    next: typeof NextFunction
+  ): Promise<any> => {
     try {
       const result = await Flights.findOne({ where: { id: req.params.id } })
       if (result === null) {
