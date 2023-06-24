@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { Request, Response, NextFunction } = require('express')
-const {getAllUsers,forgotPassword,resetPassword} = require('../../app/controllers/userController')
+const { forgotPassword } = require('../../app/controllers/usersController')
 
 const router = express.Router()
 
@@ -12,9 +12,7 @@ router.get('/', (req: typeof Request, res: typeof Response, next: typeof NextFun
   })
 })
 
-router.get('/api/v1/users', getAllUsers)
 router.put('/api/v1/forgot-password', forgotPassword)
-router.put('/api/v1/reset-password', resetPassword)
 
 export {}
 

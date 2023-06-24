@@ -44,10 +44,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    resetPasswordLink:{
+    resetPasswordToken: {
       type: DataTypes.STRING,
       allowNull: true,
-      defaultValue:''
+      defaultValue: ''
     }
   }, {
     sequelize,

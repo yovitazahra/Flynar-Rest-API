@@ -18,7 +18,7 @@ module.exports = {
           firstName: 'Hans',
           lastName: 'Rio',
           phoneNumber: '083117926603',
-          resetPasswordLink: '',
+          resetPasswordToken: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -29,10 +29,10 @@ module.exports = {
           firstName: 'Gilang',
           lastName: 'Maulana',
           phoneNumber: '08987676762',
-          resetPasswordLink: '',
+          resetPasswordToken: '',
           createdAt: new Date(),
           updatedAt: new Date()
-        },
+        }
       ],
       {})
   },
