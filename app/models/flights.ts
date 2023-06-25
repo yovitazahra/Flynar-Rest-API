@@ -68,11 +68,6 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       modelName: 'Flights'
     }
   )
-  Flights.associate = function (models) {
-    Flights.hasMany(models.Users, {
-      foreignKey: 'flightId'
-    })
-  }
   return Flights
 }
 
