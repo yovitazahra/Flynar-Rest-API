@@ -61,6 +61,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       arrivalTime: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      duration: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
     {
@@ -68,6 +72,12 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       modelName: 'Flights'
     }
   )
+  Flights.associate = function (models) {
+    Flights.hasMany(models.Tickets, {
+      foreignKey: 'flightId',
+      as: 'flight'
+    })
+  }
   return Flights
 }
 

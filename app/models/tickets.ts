@@ -26,7 +26,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      class: {
+      classSeat: {
         type: DataTypes.STRING,
         allowNull: false
       },

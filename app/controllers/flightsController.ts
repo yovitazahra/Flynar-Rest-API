@@ -19,6 +19,10 @@ module.exports = {
       })
     } catch (err) {
       console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   },
   flightDetail: async (
@@ -40,8 +44,12 @@ module.exports = {
       })
     } catch (err) {
       console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   }
 }
 
-export {}
+export { }
