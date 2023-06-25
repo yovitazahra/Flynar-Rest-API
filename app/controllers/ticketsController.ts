@@ -23,7 +23,11 @@ module.exports = {
         tickets: result
       })
     } catch (err) {
-      return res.status(500).json({message:'Kesalahan pada server'})
+      console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   },
   ticketDetail: async (
@@ -50,29 +54,39 @@ module.exports = {
         ticket: result
       })
     } catch (err) {
-      return res.status(500).json({message:'Kesalahan pada server'})
+      console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   },
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    let { departureAirport, arrivalAirport, classSeat } = req.query
-
+    const { departureAirport, arrivalAirport, classSeat }: Record<string, string> = req.query
+    console.log(departureAirport, arrivalAirport, classSeat)
     try {
       const data = await Tickets.findAll({
         limit: 100,
-        include: "Flight",
+        include: {
+          model: Flights,
+          as: 'flight'
+        },
         where: {
-          '$Flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
-          '$Flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
+          '$flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
+          '$flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
           classSeat: { [Op.iLike]: `${classSeat}%` }
         }
       })
 
       const count = await Tickets.count({
         limit: 100,
-        include: "Flight",
+        include: {
+          model: Flights,
+          as: 'flight'
+        },
         where: {
-          '$Flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
-          '$Flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
+          '$flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
+          '$flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
           classSeat: { [Op.iLike]: `${classSeat}%` }
         }
       })
@@ -82,83 +96,74 @@ module.exports = {
       }
 
       return res.status(200).json({
-        message: 'SUCCESS',
+        status: 'SUCCESS',
         count,
         data
       })
-
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Kesalahan pada server' })
+      console.log(error)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   },
   filterFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
-
       const sortBy = req.query.sortBy
       let sortedData
 
-      // harga termurah
-      if (sortBy === 'price') {
+      if (sortBy === 'price') { // harga termurah
         sortedData = await Tickets.findAll({
           limit: 100,
           order: [['price', 'ASC']]
-        });
-      } 
-      // durasi terpendek
-      else if (sortBy === 'duration') {
+        })
+      } else if (sortBy === 'duration') { // durasi terpendek
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'duration', 'ASC']]
         })
-      } 
-      // keberangkatan paling awal
-      else if(sortBy === 'departureDateStart'){
+      } else if (sortBy === 'departureDateStart') { // keberangkatan paling awal
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'departureDate', 'ASC']]
         })
-      }
-      // keberangkatan paling akhir
-      else if(sortBy === 'departureDateEnd'){
+      } else if (sortBy === 'departureDateEnd') { // keberangkatan paling akhir
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'departureDate', 'DESC']]
         })
-      }
-      // kedatangan paling awal
-      else if(sortBy === 'arrivalDateStart'){
+      } else if (sortBy === 'arrivalDateStart') { // kedatangan paling awal
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'arrivalDate', 'ASC']]
         })
-      }
-      // kedatangan paling akhir
-       else if(sortBy === 'arrivalDateEnd'){
+      } else if (sortBy === 'arrivalDateEnd') { // kedatangan paling akhir
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'arrivalDate', 'DESC']]
         })
-      }
-      else {
+      } else {
         sortedData = await Tickets.findAll({
           include: [{ model: Flights }]
         })
       }
 
       return res.status(200).json({
-        message: 'SUCCESS',
-        sortedData
+        status: 'SUCCESS',
+        data: sortedData
       })
-
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Kesalahan pada server' })
+      console.log(error)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   }
 }

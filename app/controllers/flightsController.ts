@@ -1,7 +1,6 @@
 const { Flights } = require('../models/index')
 const { Request, Response, NextFunction } = require('express')
 
-
 module.exports = {
   flightList: async (
     req: typeof Request,
@@ -19,7 +18,11 @@ module.exports = {
         flights: result
       })
     } catch (err) {
-      return res.status(500).json({message:'Kesalahan pada server'})
+      console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   },
   flightDetail: async (
@@ -40,7 +43,11 @@ module.exports = {
         flight: result
       })
     } catch (err) {
-      return res.status(500).json({message:'Kesalahan pada server'})
+      console.log(err)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
     }
   }
 }

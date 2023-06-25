@@ -20,7 +20,7 @@ const flightsDummy = () => {
   {
     name: 'Etihad Airways',
     code: 'EA'
-  },
+  }
     // { name: 'Batik Air', code: 'BA' },
     // { name: 'TransNusa', code: 'TN' },
     // {name: 'Emirates',  code: 'ES' }
@@ -74,8 +74,6 @@ const flightsDummy = () => {
     duration: '03:15:00.000'
   }
   ]
-
-
 
   const flights = []
 
