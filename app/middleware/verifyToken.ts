@@ -25,7 +25,7 @@ const verifyToken = (req: typeof Request, res: typeof Response, next: typeof Nex
       res.cookie('refreshToken', '')
       return res.status(401).json({
         status: 'FAILED',
-        message: 'Sesi Login Expired, Silahkan Login'
+        message: 'Sesi Login Expired, Silahkan Login Ulang'
       })
     }
     req.email = decoded.email

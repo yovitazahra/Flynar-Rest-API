@@ -3,11 +3,18 @@ const { Request, Response, NextFunction } = require('express')
 const { Op } = require('sequelize')
 
 module.exports = {
-  ticketList: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+  ticketList: async (
+    req: typeof Request,
+    res: typeof Response,
+    next: typeof NextFunction
+  ): Promise<any> => {
     try {
       const result = await Tickets.findAll({
-        include: Flights,
-        limit: 100
+        limit: 100,
+        include: {
+          model: Flights,
+          as: 'flight'
+        }
       })
       const total = await Tickets.count()
       return res.status(200).json({
@@ -19,9 +26,19 @@ module.exports = {
       return res.status(500).json({message:'Kesalahan pada server'})
     }
   },
-  ticketDetail: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+  ticketDetail: async (
+    req: typeof Request,
+    res: typeof Response,
+    next: typeof NextFunction
+  ): Promise<any> => {
     try {
-      const result = await Tickets.findOne({ where: { id: req.params.id } })
+      const result = await Tickets.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: Flights,
+          as: 'flight'
+        }
+      })
       if (result === null) {
         return res.status(404).json({
           status: 'FAILED',

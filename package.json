@@ -9,7 +9,7 @@
     "db:create": "sequelize db:create",
     "db:drop": "sequelize db:drop",
     "db:migrate": "sequelize db:migrate",
-    "db:rollback": "sequelize db:migrate:undo",
+    "db:rollback": "sequelize db:migrate:undo:all",
     "db:seed": "sequelize db:seed:all",
     "db:init": "npm run db:create && npm run db:migrate && npm run db:seed",
     "db:remake": "npm run db:drop && npm run db:init",
@@ -45,6 +45,7 @@
     "otp-generator": "^4.0.1",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
+    "randomstring": "^1.3.0",
     "sequelize": "^6.32.0",
     "sequelize-cli": "^6.6.0"
   },

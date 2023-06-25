@@ -48,6 +48,11 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     refreshToken: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: ''
     }
   }, {
     sequelize,
