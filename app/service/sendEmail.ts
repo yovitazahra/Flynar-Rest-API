@@ -42,14 +42,15 @@ const sendResetPasswordEmail = async (params: { to: string, token: string }): Pr
     const info = await transporter.sendMail({
       from: MAIL_SETTINGS.auth.user,
       to: params.to,
-      subject: 'Flynar Reset Password Link',
+      subject: 'Flynar Reset Password Token',
       html: `
         <div
           class="container"
           style="max-width: 90%; margin: auto; padding-top: 20px"
         >
           <h2>Reset Password Flynar.</h2>
-          <a href="${process?.env?.CLIENT_URL ?? 'http://localhost:3000'}/reset-password?token=${params.token}" target="_blank" style="margin-bottom: 30px;">Please follow this link for reset your password</p>
+          <p>Here is your token for update password</p>
+          <p style="margin-bottom: 30px;">${params.token}</p>
       </div>
       `
     })

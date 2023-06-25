@@ -69,20 +69,20 @@ async function registerUsers (
     })
   }
 
+  const isExisting = await findUserByEmail(email)
+  if (isExisting !== null) {
+    return res.status(400).json({
+      status: 'FAILED',
+      message: 'Email Sudah Terdaftar'
+    })
+  }
+
   const { valid, reason, validators } = await isEmailValid(email)
   if (valid === false) {
     return res.status(400).send({
       status: 'FAILED',
       message: 'Email Tidak Ditemukan',
       reason: validators[reason].reason
-    })
-  }
-
-  const isExisting = await findUserByEmail(email)
-  if (isExisting !== null) {
-    return res.status(400).json({
-      status: 'FAILED',
-      message: 'Email Sudah Terdaftar'
     })
   }
 
@@ -236,8 +236,11 @@ async function validateRegisterUser (
   if (user === null) {
     return [404, 'Akun Tidak Ditemukan']
   }
+  if (user.isVerified === true) {
+    return [400, 'Email Sudah Diverifikasi']
+  }
   if (user !== null && user.otp !== otp) {
-    return [401, 'Invalid OTP']
+    return [401, 'OTP Invalid atau Tidak Cocok']
   }
   await Users.update({ isVerified: true }, { where: { email } })
   return [200, 'Verifikasi Berhasil']
@@ -257,10 +260,55 @@ async function login (
 
   try {
     if (refreshToken !== '' && refreshToken !== undefined) {
-      res.status(400).json({
-        status: 'FAILED',
-        message: 'Anda Sudah Login'
+      const user = await Users.findAll({
+        where: { refreshToken }
       })
+
+      if (user[0] === undefined) {
+        res.cookie('refreshToken', '')
+        return res.status(401).json({
+          status: 'FAILED',
+          message: 'Sesi Login Expired, Silahkan Login Ulang'
+        })
+      }
+
+      const authHeader = req.headers.authorization
+      const token = authHeader?.split(' ')[1]
+
+      if (token !== null || token !== undefined) {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
+          if (err !== null) {
+            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
+              if (err instanceof Error) {
+                res.cookie('refreshToken', '')
+                return res.status(401).json({
+                  status: 'FAILED',
+                  message: 'Sesi Login Expired, Silahkan Login Ulang'
+                })
+              }
+
+              const { id, email } = user
+              const accessToken = jwt.sign(
+                { id, email },
+                process.env.ACCESS_TOKEN_SECRET,
+                {
+                  expiresIn: '1d'
+                }
+              )
+              res.status(200).json({
+                status: 'SUCCESS',
+                accessToken
+              })
+            })
+          } else {
+            res.status(200).json({
+              status: 'SUCCESS',
+              message: 'Anda Sudah Login',
+              accessToken: token
+            })
+          }
+        })
+      }
     } else if (
       identifier === undefined ||
       identifier === '' ||
@@ -322,7 +370,10 @@ async function login (
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
           })
-          res.json({ accessToken })
+          res.status(200).json({
+            status: 'SUCCESS',
+            accessToken
+          })
         }
       } else {
         res.status(404).json({
@@ -399,9 +450,10 @@ async function refreshAccessToken (
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
       if (err instanceof Error) {
+        res.cookie('refreshToken', '')
         return res.status(401).json({
           status: 'FAILED',
-          message: 'Sesi Login Expired, Silahkan Login'
+          message: 'Sesi Login Expired, Silahkan Login Ulang'
         })
       }
 
@@ -413,7 +465,10 @@ async function refreshAccessToken (
           expiresIn: '1d'
         }
       )
-      res.json({ accessToken })
+      res.status(200).json({
+        status: 'SUCCESS',
+        accessToken
+      })
     })
   } catch (err) {
     console.log(err)
@@ -475,7 +530,7 @@ async function forgotPassword (
         })
       }
 
-      const token = jwt.sign({ id: user._id }, process.env.RESET_PASSWORD_SECRET, { expiresIn: '5m' })
+      const token = jwt.sign({ id: user._id, email }, process.env.RESET_PASSWORD_SECRET, { expiresIn: '3m' })
       const emailSended = await sendResetPasswordEmail({
         to: email,
         token
@@ -520,7 +575,7 @@ async function resetPassword (
 
     if (user !== null) {
       if (password !== confirmation) {
-        res.status(404).json({
+        res.status(400).json({
           status: 'FAILED',
           message: 'Password dan Konfirmasi Password Berbeda'
         })
