@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken')
 const { Request, Response, NextFunction } = require('express')
 
-const verifyToken = (req: typeof Request, res: typeof Response, next: typeof NextFunction): any | typeof Response => {
+const verifyToken = (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): any | typeof Response => {
   const refreshToken = req?.cookies?.refreshToken
   if (refreshToken === undefined) {
     return res.status(401).json({
@@ -29,6 +33,7 @@ const verifyToken = (req: typeof Request, res: typeof Response, next: typeof Nex
       })
     }
     req.email = decoded.email
+    req.id = decoded.id
     next()
   })
 }

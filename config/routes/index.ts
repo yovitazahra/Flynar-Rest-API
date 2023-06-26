@@ -25,6 +25,10 @@ const {
   resetPassword
 } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
+const {
+  createCheckout,
+  getCheckouts
+} = require('../../app/controllers/checkoutsController')
 
 router.get(
   '/api/v1/',
@@ -58,6 +62,9 @@ router.get('/api/v1/filter', filterFlightTickets)
 router.get('/api/v1/tickets', ticketList)
 router.get('/api/v1/tickets/:id', ticketDetail)
 
+// checkouts
+router.post('/api/v1/checkout', verifyToken, createCheckout)
+router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 export {}
 
 module.exports = router

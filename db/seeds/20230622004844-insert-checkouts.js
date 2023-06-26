@@ -1,34 +1,34 @@
 'use strict'
 /** @type {import('sequelize-cli').Migration} */
 
-const bcryptjs = require('bcryptjs')
-
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const salt = await bcryptjs.genSalt()
-    const hashPassword = await bcryptjs.hash('hansFlynarADMIN123', salt)
-
     await queryInterface.bulkInsert(
-      'Users',
+      'Checkouts',
       [
         {
-          name: 'Hans',
-          email: 'hansolo.palla2115@gmail.com',
-          password: hashPassword,
+          fullName: 'Hans Rio',
+          familyName: 'Alfredo Palla',
           phoneNumber: '083117926603',
-          otp: 121212,
-          isVerified: true,
-          resetPasswordToken: '',
+          email: 'hansolo.palla2115@gmail.com',
+          price: 11900000,
+          total: 2,
+          status: 'Unpaid',
+          userId: 1,
+          ticketId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          name: 'Han',
-          email: 'hantheclasssick@gmail.com',
-          password: hashPassword,
+          fullName: 'Han',
+          familyName: 'Palla',
           phoneNumber: '083117926603',
-          otp: 212121,
-          isVerified: true,
+          email: 'hantheclasssick@gmail.com',
+          price: 5950000,
+          total: 1,
+          status: 'Unpaid',
+          userId: 2,
+          ticketId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         }

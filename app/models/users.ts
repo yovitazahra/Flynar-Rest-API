@@ -58,6 +58,11 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     sequelize,
     modelName: 'Users'
   })
+  Users.associate = function (models) {
+    Users.hasMany(models.Checkouts, {
+      foreignKey: 'userId'
+    })
+  }
   return Users
 }
 

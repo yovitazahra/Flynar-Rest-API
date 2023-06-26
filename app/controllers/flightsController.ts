@@ -1,4 +1,4 @@
-const { Flights } = require('../models/index')
+const { Flights, Tickets } = require('../models/index')
 const { Request, Response, NextFunction } = require('express')
 
 module.exports = {
@@ -9,7 +9,10 @@ module.exports = {
   ): Promise<any> => {
     try {
       const result = await Flights.findAll({
-        limit: 100
+        limit: 100,
+        include: {
+          model: Tickets
+        }
       })
       const total = await Flights.count()
       return res.status(200).json({

@@ -46,7 +46,7 @@ module.exports = {
       if (result === null) {
         return res.status(404).json({
           status: 'FAILED',
-          message: 'Data tidak ditemukan'
+          message: 'Data Tidak Ditemukan'
         })
       }
       return res.status(200).json({
