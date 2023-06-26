@@ -18,6 +18,7 @@ module.exports = {
           phoneNumber: '083117926603',
           otp: 121212,
           isVerified: true,
+          resetPasswordToken: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },

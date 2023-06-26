@@ -26,7 +26,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      class: {
+      classSeat: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -52,7 +52,12 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       modelName: 'Tickets'
     }
   )
-
+  Tickets.associate = function (models) {
+    Tickets.belongsTo(models.Flights, {
+      foreignKey: 'flightId',
+      as: 'flight'
+    })
+  }
   return Tickets
 }
 

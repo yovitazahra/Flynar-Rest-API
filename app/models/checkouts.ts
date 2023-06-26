@@ -62,9 +62,9 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
     }
   )
   Checkouts.associate = function (models) {
-    Checkouts.belongsTo(models.Users, {
-      as: 'user',
-      foreignKey: 'userId'
+    Checkouts.belongsTo(models.Tickets, {
+      as: 'ticket',
+      foreignKey: 'ticketId'
     })
   }
   return Checkouts

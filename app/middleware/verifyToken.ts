@@ -24,22 +24,18 @@ const verifyToken = (
     })
   }
 
-  jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET,
-    (err: Error, decoded: any) => {
-      if (err !== null) {
-        res.cookie('refreshToken', '')
-        return res.status(401).json({
-          status: 'FAILED',
-          message: 'Sesi Login Expired, Silahkan Login'
-        })
-      }
-      req.id = decoded.id
-      console.log(req.id)
-      next()
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
+    if (err !== null) {
+      res.cookie('refreshToken', '')
+      return res.status(401).json({
+        status: 'FAILED',
+        message: 'Sesi Login Expired, Silahkan Login Ulang'
+      })
     }
-  )
+    req.email = decoded.email
+    req.id = decoded.id
+    next()
+  })
 }
 
 export {}

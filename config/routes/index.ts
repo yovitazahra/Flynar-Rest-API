@@ -7,7 +7,9 @@ const {
 } = require('../../app/controllers/flightsController')
 const {
   ticketList,
-  ticketDetail
+  ticketDetail,
+  searchFlightTickets,
+  filterFlightTickets
 } = require('../../app/controllers/ticketsController')
 const {
   registerUsers,
@@ -18,7 +20,9 @@ const {
   getUserById,
   refreshAccessToken,
   resendOtp,
-  updateUser
+  updateUser,
+  forgotPassword,
+  resetPassword
 } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
 const {
@@ -44,11 +48,15 @@ router.post('/api/v1/resend-otp', resendOtp)
 router.post('/api/v1/verify', verifyEmail)
 router.post('/api/v1/login', login)
 router.put('/api/v1/profile/update', verifyToken, updateUser)
+router.put('/api/v1/forgot-password', forgotPassword)
+router.put('/api/v1/reset-password', resetPassword)
 router.delete('/api/v1/logout', logout)
 
 // flights
 router.get('/api/v1/flights', flightList)
 router.get('/api/v1/flights/:id', flightDetail)
+router.get('/api/v1/search', searchFlightTickets)
+router.get('/api/v1/filter', filterFlightTickets)
 
 // tickets
 router.get('/api/v1/tickets', ticketList)

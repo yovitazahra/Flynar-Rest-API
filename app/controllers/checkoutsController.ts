@@ -1,5 +1,5 @@
 const { Request, Response, NextFunction } = require('express')
-const { Users, Checkouts } = require('../models/index')
+const { Tickets, Checkouts } = require('../models/index')
 
 async function createCheckout (
   req: typeof Request,
@@ -16,8 +16,20 @@ async function createCheckout (
     status,
     ticketId
   } = req.body
+
   try {
-    const newCheckout = await Checkouts.create({
+    const selectedTicket = await Tickets.findOne({
+      where: { id: ticketId }
+    })
+
+    if (selectedTicket.total - total < 0) {
+      return res.status(400).json({
+        status: 'FAILED',
+        message: 'Jumlah Tiket Tidak Cukup'
+      })
+    }
+
+    await Checkouts.create({
       fullName,
       familyName,
       phoneNumber,
@@ -29,9 +41,12 @@ async function createCheckout (
       userId: req.id
     })
 
+    selectedTicket.total = selectedTicket.total - total
+    await selectedTicket.save()
+
     res.status(201).json({
       status: 'SUCCESS',
-      data: newCheckout
+      message: 'Transaksi Dibuat'
     })
   } catch (error: any) {
     res.status(400).json({
@@ -48,9 +63,8 @@ async function getCheckouts (
   try {
     const data = await Checkouts.findAll({
       include: {
-        model: Users,
-        as: 'user',
-        attributes: ['id', 'name']
+        model: Tickets,
+        as: 'ticket'
       }
     })
     res.status(200).json({
