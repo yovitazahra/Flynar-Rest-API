@@ -62,8 +62,8 @@ module.exports = {
     }
   },
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    const { departureAirport, arrivalAirport, classSeat }: Record<string, string> = req.query
-    console.log(departureAirport, arrivalAirport, classSeat)
+    const { departureCity, arrivalCity, classSeat }: Record<string, string> = req.query
+    console.log(departureCity, arrivalCity, classSeat)
     try {
       const data = await Tickets.findAll({
         limit: 100,
@@ -72,8 +72,8 @@ module.exports = {
           as: 'flight'
         },
         where: {
-          '$flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
-          '$flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
+          '$flight.departureCity$': { [Op.iLike]: `%${departureCity}` },
+          '$flight.arrivalCity$': { [Op.iLike]: `%${arrivalCity}` },
           classSeat: { [Op.iLike]: `${classSeat}%` }
         }
       })
@@ -85,14 +85,17 @@ module.exports = {
           as: 'flight'
         },
         where: {
-          '$flight.departureAirport$': { [Op.iLike]: `%${departureAirport}` },
-          '$flight.arrivalAirport$': { [Op.iLike]: `%${arrivalAirport}` },
+          '$flight.departureCity$': { [Op.iLike]: `%${departureCity}` },
+          '$flight.arrivalCity$': { [Op.iLike]: `%${arrivalCity}` },
           classSeat: { [Op.iLike]: `${classSeat}%` }
         }
       })
 
       if (data.length === 0) {
-        return res.status(404).json({ message: 'Maaf pencarian anda tidak ditemukan' })
+        return res.status(404).json({
+          status: 'FAILED',
+          message: 'Maaf Pencarian Tidak Ditemukan'
+        })
       }
 
       return res.status(200).json({
