@@ -62,8 +62,7 @@ module.exports = {
     }
   },
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    const { departureCity, arrivalCity, classSeat }: Record<string, string> = req.query
-    console.log(departureCity, arrivalCity, classSeat)
+    const { departureCity = '', arrivalCity = '', classSeat = '' }: Record<string, string> = req.query
     try {
       const data = await Tickets.findAll({
         limit: 100,
