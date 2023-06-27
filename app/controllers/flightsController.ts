@@ -12,7 +12,10 @@ module.exports = {
         limit: 100,
         include: {
           model: Tickets,
-          as: 'tickets'
+          as: 'tickets',
+          attributes: {
+            exclude: ['id', 'createdAt', 'updatedAt']
+          }
         }
       })
       const total = await Flights.count()
@@ -39,7 +42,10 @@ module.exports = {
         where: { id: req.params.id },
         include: {
           model: Tickets,
-          as: 'tickets'
+          as: 'tickets',
+          attributes: {
+            exclude: ['id', 'createdAt', 'updatedAt']
+          }
         }
       })
       if (result === null) {
