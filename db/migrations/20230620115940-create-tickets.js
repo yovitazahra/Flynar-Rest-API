@@ -26,6 +26,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      passengers: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      availableSeat: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       label: {
         type: Sequelize.STRING,
         allowNull: false

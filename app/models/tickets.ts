@@ -34,17 +34,17 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       passengers: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
       },
       availableSeat: {
         type: DataTypes.TEXT,
         allowNull: true
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false
       },
       label: {
         type: DataTypes.STRING,
