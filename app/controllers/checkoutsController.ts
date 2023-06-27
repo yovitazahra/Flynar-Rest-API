@@ -14,6 +14,8 @@ async function createCheckout (
     price,
     total,
     status,
+    passengers,
+    seats,
     ticketId
   } = req.body
 
@@ -37,6 +39,8 @@ async function createCheckout (
       price,
       total,
       status,
+      passengers,
+      seats,
       ticketId,
       userId: req.id
     })
