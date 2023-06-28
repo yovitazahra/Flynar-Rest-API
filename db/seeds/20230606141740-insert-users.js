@@ -28,7 +28,7 @@ module.exports = {
           password: hashPassword,
           phoneNumber: '083117926603',
           otp: 212121,
-          isVerified: true,
+          isVerified: false,
           createdAt: new Date(),
           updatedAt: new Date()
         }
