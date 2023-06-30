@@ -25,9 +25,9 @@
     "db:rollback:tickets": "sequelize db:migrate:undo:all --to 20230620115940-create-tickets.js",
     "db:recreate:tickets": "npm run db:rollback:tickets && npm run db:migrate:tickets",
     "db:seed:tickets": "sequelize db:seed --seed 20230620120010-insert-tickets.js",
-    "db:migrate:checkouts": "sequelize db:migrate --to 20230621111914-create-checkouts",
-    "db:rollback:checkouts": "sequelize db:migrate:undo:all --to 20230621111914-create-checkouts",
-    "db:recreate:checkouts": "npm run db:rollback:checkouts && npm run db:migrate:checkouts",
+    "db:migrate:checkouts": "sequelize db:migrate --to 20230621111914-create-checkouts.js",
+    "db:rollback:checkouts": "sequelize db:migrate:undo:all --to 20230621111914-create-checkouts.js",
+    "db:recreate:checkouts": "npm run db:rollback:checkouts && npm run db:migrate:checkouts.js",
     "lint": "eslint ./",
     "test": "jest"
   },
