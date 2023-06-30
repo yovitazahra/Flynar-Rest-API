@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      availableSeat: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       label: {
         type: Sequelize.STRING,
         allowNull: false
