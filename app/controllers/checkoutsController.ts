@@ -1,5 +1,6 @@
 const { Request, Response, NextFunction } = require('express')
 const { Tickets, Checkouts } = require('../models/index')
+const formatAvailableSeats = require('../utils/formatAvailableSeats')
 
 async function createCheckout (
   req: typeof Request,
@@ -14,21 +15,51 @@ async function createCheckout (
     price,
     total,
     status,
-    passengers,
-    seats,
-    ticketId
+    ticketId,
+    departureSeat,
+    returnSeat,
+    passengersData
   } = req.body
 
-  try {
-    const selectedTicket = await Tickets.findOne({
-      where: { id: ticketId }
-    })
+  const ticketIds = ticketId.split(',')
+  const departureSeats = departureSeat.split(',')
+  const returnSeats = returnSeat.split(',')
 
-    if (selectedTicket.total - total < 0) {
-      return res.status(400).json({
-        status: 'FAILED',
-        message: 'Jumlah Tiket Tidak Cukup'
+  try {
+    let selectedTicket
+    for (let i = 0; i < ticketIds.length; i++) {
+      selectedTicket = await Tickets.findOne({
+        where: { id: parseInt(ticketIds[i]) }
       })
+
+      if (selectedTicket.total - total < 0) {
+        return res.status(400).json({
+          status: 'FAILED',
+          message: 'Jumlah Tiket Tidak Cukup'
+        })
+      }
+
+      const availableSeats = selectedTicket.availableSeat.split(',')
+
+      if (i === 0) {
+        for (let j = 0; j < departureSeats.length; j++) {
+          const index = availableSeats.indexOf(departureSeats[j])
+          if (index > -1) {
+            availableSeats.splice(index, 1)
+          }
+        }
+      } else {
+        for (let j = 0; j < returnSeats.length; j++) {
+          const index = availableSeats.indexOf(returnSeats[j])
+          if (index > -1) {
+            availableSeats.splice(index, 1)
+          }
+        }
+      }
+
+      selectedTicket.availableSeat = formatAvailableSeats(availableSeats)
+      selectedTicket.total = selectedTicket.total - total
+      await selectedTicket.save()
     }
 
     await Checkouts.create({
@@ -39,14 +70,12 @@ async function createCheckout (
       price,
       total,
       status,
-      passengers,
-      seats,
       ticketId,
+      departureSeat,
+      returnSeat,
+      passengersData,
       userId: req.id
     })
-
-    selectedTicket.total = selectedTicket.total - total
-    await selectedTicket.save()
 
     res.status(201).json({
       status: 'SUCCESS',
@@ -66,10 +95,10 @@ async function getCheckouts (
 ): Promise<any> {
   try {
     const data = await Checkouts.findAll({
-      include: {
-        model: Tickets,
-        as: 'ticket'
-      }
+      // include: {
+      //   model: Tickets,
+      //   as: 'ticket'
+      // }
     })
     res.status(200).json({
       status: 'SUCCESS',

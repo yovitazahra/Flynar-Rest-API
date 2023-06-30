@@ -41,7 +41,19 @@ module.exports = {
         allowNull: false
       },
       ticketId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      departureSeat: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      returnSeat: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      passengersData: {
+        type: Sequelize.TEXT,
         allowNull: false
       },
       createdAt: {
