@@ -40,6 +40,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      isRoundTrip: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
       ticketId: {
         type: Sequelize.STRING,
         allowNull: false

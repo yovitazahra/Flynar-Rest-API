@@ -51,6 +51,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      isRoundTrip: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
       ticketId: {
         type: DataTypes.STRING,
         allowNull: false
