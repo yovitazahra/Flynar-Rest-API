@@ -48,7 +48,6 @@ async function createCheckout (
         message: 'Silahkan Pilih 2 Penerbangan'
       })
     }
-    console.log(returnSeats)
     if (departureSeats[0] === '' || departureSeats[1] === '' || returnSeats[0] === '' || returnSeats[1] === '') {
       return res.status(400).json({
         status: 'FAILED',
