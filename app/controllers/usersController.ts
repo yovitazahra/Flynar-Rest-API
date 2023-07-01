@@ -91,6 +91,7 @@ async function registerUsers (
   if (newUser !== false) {
     res.status(201).json({
       status: 'SUCCESS',
+      message: 'Silahkan Lanjut Verifikasi',
       user: newUser
     })
   } else {

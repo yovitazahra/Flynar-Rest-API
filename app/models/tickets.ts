@@ -38,6 +38,10 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      availableSeat: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
       label: {
         type: DataTypes.STRING,
         allowNull: false

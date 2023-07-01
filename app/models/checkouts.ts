@@ -51,8 +51,24 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      isRoundTrip: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+      },
       ticketId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      departureSeat: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      returnSeat: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      passengersData: {
+        type: DataTypes.TEXT,
         allowNull: false
       }
     },
@@ -61,11 +77,11 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       modelName: 'Checkouts'
     }
   )
-  Checkouts.associate = function (models) {
-    Checkouts.belongsTo(models.Tickets, {
-      as: 'ticket',
-      foreignKey: 'ticketId'
-    })
-  }
+  // Checkouts.associate = function (models) {
+  //   Checkouts.belongsTo(models.Tickets, {
+  //     as: 'ticket',
+  //     foreignKey: 'ticketId'
+  //   })
+  // }
   return Checkouts
 }
