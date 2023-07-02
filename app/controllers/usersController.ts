@@ -490,7 +490,7 @@ async function updateUser (
         message: 'Lengkapi Data'
       })
     }
-    console.log(parseInt(phoneNumber))
+
     if (isNaN(parseInt(phoneNumber))) {
       return res.status(400).json({
         status: 'SUCCESS',

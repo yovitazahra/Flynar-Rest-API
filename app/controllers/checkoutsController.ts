@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 const { Request, Response, NextFunction } = require('express')
-const { Tickets, Checkouts, Flights } = require('../models/index')
+const { Tickets, Checkouts, Flights, Notifications } = require('../models/index')
 const formatAvailableSeats = require('../utils/formatAvailableSeats')
 
 async function createCheckout (
@@ -166,6 +166,14 @@ async function createCheckout (
       departureSeat,
       returnSeat,
       passengersData,
+      userId: req.id
+    })
+
+    await Notifications.create({
+      title: 'Transkasi Berhasil Dibuat',
+      label: 'Notifikasi',
+      text: 'Transaksi berhasil dibuat, silahkan lakukan pembayaran secepatnya',
+      isRead: false,
       userId: req.id
     })
 
@@ -401,6 +409,15 @@ async function cancelCheckout (
       await selectedCheckout.save()
       await selectedTicket.save()
     }
+
+    await Notifications.create({
+      title: 'Transkasi Batal',
+      label: 'Notifikasi',
+      text: 'Transaksi berhasil dibatalkan, silahkan lainnya dari kami',
+      isRead: false,
+      userId: req.id
+    })
+
     return res.status(200).json({
       status: 'SUCCESS',
       message: 'Transaksi Dibatalkan'
@@ -446,6 +463,14 @@ async function payCheckout (
 
     selectedCheckout.status = 'Issued'
     await selectedCheckout.save()
+
+    await Notifications.create({
+      title: 'Transkasi Sukses',
+      label: 'Notifikasi',
+      text: 'Terima kasih sudah melakukan pembayaran',
+      isRead: false,
+      userId: req.id
+    })
 
     return res.status(200).json({
       status: 'SUCCESS',

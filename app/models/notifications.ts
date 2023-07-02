@@ -31,7 +31,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         allowNull: false
       },
       text: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
       },
       isRead: {
