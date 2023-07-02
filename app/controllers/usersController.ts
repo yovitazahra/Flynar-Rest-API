@@ -482,8 +482,21 @@ async function updateUser (
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    const { name, phoneNumber } = req.body
+    const { name = '', phoneNumber = '' } = req.body
     const refreshToken = req?.cookies?.refreshToken
+    if (name === '' || phoneNumber === '') {
+      return res.status(400).json({
+        status: 'SUCCESS',
+        message: 'Lengkapi Data'
+      })
+    }
+    console.log(parseInt(phoneNumber))
+    if (isNaN(parseInt(phoneNumber))) {
+      return res.status(400).json({
+        status: 'SUCCESS',
+        message: 'Nomor Telepon Wajib Angka'
+      })
+    }
     const data = await Users.update(
       {
         name,
