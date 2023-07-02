@@ -1,45 +1,68 @@
-const { Request, Response, NextFunction } = require("express");
-const { Notifications, Tickets } = require("../models/index");
+const { Request, Response } = require('express')
+const { Notifications } = require('../models/index')
 
-async function getNotifications(
-    req: typeof Request,
-    res: typeof Response
+async function getNotifications (
+  req: typeof Request,
+  res: typeof Response
 ): Promise<any> {
-    try {
-        const data = await Notifications.findAll({ where: { userId: req.id } });
+  try {
+    const data = await Notifications.findAll({ where: { userId: req.id } })
 
-        res.status(200).json({
-            status: "SUCCESS",
-            data,
-        });
-    } catch (error: any) {
-        res.status(404).json({
-            status: "FAILED",
-            message: error.message,
-        });
-    }
+    res.status(200).json({
+      status: 'SUCCESS',
+      data
+    })
+  } catch (error: any) {
+    res.status(404).json({
+      status: 'FAILED',
+      message: error.message
+    })
+  }
 }
 
-async function createNotification(
-    req: typeof Request,
-    res: typeof Response
+async function readNotification (
+  req: typeof Request,
+  res: typeof Response
 ): Promise<any> {
-    const { text } = req.body;
-    try {
-        await Notifications.create({
-            text,
-            userId: req.id,
-        });
-
-        res.status(201).json({
-            status: "SUCCESS",
-            message: "Notification Dibuat",
-        });
-    } catch (error: any) {
-        res.status(404).json({
-            status: "FAILED",
-            message: error.message,
-        });
+  const { id } = req.body
+  const notification = await Notifications.findOne({
+    where: {
+      id
     }
+  })
+
+  notification.isRead = true
+  await notification.save()
+
+  res.status(201).json({
+    status: 'SUCCESS',
+    message: 'Notifikasi Dibaca'
+  })
 }
-module.exports = { getNotifications, createNotification };
+
+async function createNotification (
+  req: typeof Request,
+  res: typeof Response
+): Promise<any> {
+  const { title = '', label = '', text = '' } = req.body
+  try {
+    await Notifications.create({
+      title,
+      label,
+      text,
+      isRead: false,
+      userId: req.id
+    })
+
+    res.status(201).json({
+      status: 'SUCCESS',
+      message: 'Notifikasi Dibuat'
+    })
+  } catch (error: any) {
+    res.status(404).json({
+      status: 'FAILED',
+      message: error.message
+    })
+  }
+}
+module.exports = { getNotifications, readNotification, createNotification }
