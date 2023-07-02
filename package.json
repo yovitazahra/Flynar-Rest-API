@@ -28,6 +28,9 @@
     "db:migrate:checkouts": "sequelize db:migrate --to 20230621111914-create-checkouts.js",
     "db:rollback:checkouts": "sequelize db:migrate:undo:all --to 20230621111914-create-checkouts.js",
     "db:recreate:checkouts": "npm run db:rollback:checkouts && npm run db:migrate:checkouts.js",
+    "db:migrate:notifications": "sequelize db:migrate --to 20230701144907-create-notifications.js",
+    "db:rollback:notifications": "sequelize db:migrate:undo:all --to 20230701144907-create-notifications.js",
+    "db:recreate:notifications": "npm run db:rollback:notifications && npm run db:migrate:notifications.js",
     "lint": "eslint ./",
     "test": "jest"
   },
