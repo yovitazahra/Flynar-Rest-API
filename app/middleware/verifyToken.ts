@@ -7,6 +7,8 @@ const verifyToken = (
   next: typeof NextFunction
 ): any | typeof Response => {
   const refreshToken = req?.cookies?.refreshToken
+  console.log('Refresh Token di Bawah')
+  console.log(refreshToken)
   if (refreshToken === undefined) {
     return res.status(401).json({
       status: 'FAILED',
