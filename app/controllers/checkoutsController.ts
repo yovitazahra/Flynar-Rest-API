@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 const { Request, Response, NextFunction } = require('express')
-const { Tickets, Checkouts } = require('../models/index')
+const { Tickets, Checkouts, Flights } = require('../models/index')
 const formatAvailableSeats = require('../utils/formatAvailableSeats')
 
 async function createCheckout (
@@ -200,21 +200,18 @@ async function getCheckouts (
     'Desember'
   ]
 
-  // example query => ?month=6&year=2023&day=23
+  const date = req.query.date
   const year = req.query.year
   const month = req.query.month
-  const day = req.query.day
 
   try {
     const data = await Checkouts.findAll({
-      include: {
-        model: Users,
-        attributes: ['id', 'name']
+      where: {
+        userId: req.id
       }
     })
 
-    // grouping by year & month
-    if (!year || !month || !day) {
+    if (date === undefined) {
       let availableYear = [] as any
       const availableData = [] as any
 
@@ -225,26 +222,41 @@ async function getCheckouts (
       })
 
       availableYear = [...new Set(availableYear)]
-
       const filteredData = availableYear.map((year: number) => {
         return {
           year,
           data: months.map((month: string) => ({
             month,
-            checkouts: [] as Checkout[]
+            checkouts: []
           }))
         }
       })
 
-      data.forEach((checkout: any) => {
-        const value = checkout.dataValues
+      for (let h = 0; h < data.length; h++) {
+        const value = data[h].dataValues
+        const flightIds = []
+        const ticketIds = value.ticketId.split(',')
+
+        for (let i = 0; i < ticketIds.length; i++) {
+          const ticket: Record<string, any> = await findTicket(parseInt(ticketIds[i]))
+          flightIds.push(ticket.dataValues.flightId)
+        }
+
+        const flights = []
+        for (let i = 0; i < flightIds.length; i++) {
+          const flight: Record<string, any> = await findFlight(flightIds[i])
+          flights.push(flight.dataValues)
+        }
+
         const yearIndex = filteredData.findIndex(
           (data: any) =>
-            data.year == new Date(value.createdAt).getUTCFullYear()
+            data.year === new Date(value.createdAt).getUTCFullYear()
         )
-        const monthIndex = new Date(value.createdAt).getUTCMonth() + 1
+
+        value.flights = flights
+        const monthIndex = new Date(value.createdAt).getMonth()
         filteredData[yearIndex].data[monthIndex].checkouts.push(value)
-      })
+      }
 
       for (let i = 0; i < availableYear.length; i++) {
         for (let j = 0; j < months.length; j++) {
@@ -261,35 +273,67 @@ async function getCheckouts (
       }
 
       res.status(200).json({
-        status: 'success',
+        status: 'SUCCESS',
         data: availableData
-        // data: filteredData <= to display all data
       })
-    }
-    // selected specific date depend on url query
-    else {
-      const filteredData = [] as Checkout[]
-      data.forEach((checkout: any) => {
-        const value = checkout.dataValues
-        if (
-          new Date(value.createdAt).toLocaleDateString() ==
-                  new Date(`${year}-${month}-${day}`).toLocaleDateString()
-        ) {
-          filteredData.push(value)
+    } else {
+      const filteredData: any[] = []
+      for (let h = 0; h < data.length; h++) {
+        const value = data[h].dataValues
+        const flightIds = []
+        const ticketIds = value.ticketId.split(',')
+
+        for (let i = 0; i < ticketIds.length; i++) {
+          const ticket: Record<string, any> = await findTicket(parseInt(ticketIds[i]))
+          flightIds.push(ticket.dataValues.flightId)
         }
-      })
+
+        const flights = []
+        for (let i = 0; i < flightIds.length; i++) {
+          const flight: Record<string, any> = await findFlight(flightIds[i])
+          flights.push(flight.dataValues)
+        }
+
+        for (let i = 0; i < flights.length; i++) {
+          if (
+            new Date(flights[i].departureDate).toLocaleDateString() === new Date(`${year}-${month}-${date}`).toLocaleDateString() ||
+            new Date(flights[i].returnDate).toLocaleDateString() === new Date(`${year}-${month}-${date}`).toLocaleDateString()
+          ) {
+            value.flights = flights[i]
+            filteredData.push(value)
+          }
+        }
+      }
 
       res.status(200).json({
-        status: 'success',
+        status: 'SUCCESS',
         data: filteredData
       })
     }
   } catch (error: any) {
     res.status(404).json({
-      status: 'failed',
-      msg: error.message
+      status: 'FAILED',
+      message: error.message
     })
   }
+}
+
+async function findTicket (ticketId: number): Promise<any> {
+  const ticket = await Tickets.findOne({
+    where: {
+      id: ticketId
+    }
+  })
+  return ticket
+}
+
+async function findFlight (flightId: number): Promise<any> {
+  const flight = await Flights.findOne({
+    where: {
+      id: flightId
+    }
+  })
+  return flight
 }
 
 async function cancelCheckout (
