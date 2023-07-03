@@ -68,7 +68,7 @@ module.exports = {
     }
   },
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    const { departureCity = '', arrivalCity = '', classSeat = '' }: Record<string, string> = req.query
+    const { departureCity = '', arrivalCity = '', classSeat = '', total = '1', departureDate = '', arrivalDate = '' }: Record<string, string> = req.query
     try {
       const data = await Tickets.findAll({
         limit: 100,
@@ -79,7 +79,10 @@ module.exports = {
         where: {
           '$flight.departureCity$': { [Op.iLike]: `%${departureCity}` },
           '$flight.arrivalCity$': { [Op.iLike]: `%${arrivalCity}` },
-          classSeat: { [Op.iLike]: `${classSeat}%` }
+          classSeat: { [Op.iLike]: `${classSeat}%` },
+          total: { [Op.gte]: parseInt(total) },
+          '$flight.departureDate$': { [Op.iLike]: `%${departureDate}` },
+          '$flight.arrivalDate$': { [Op.iLike]: `%${arrivalDate}` }
         }
       })
 
@@ -92,7 +95,10 @@ module.exports = {
         where: {
           '$flight.departureCity$': { [Op.iLike]: `%${departureCity}` },
           '$flight.arrivalCity$': { [Op.iLike]: `%${arrivalCity}` },
-          classSeat: { [Op.iLike]: `${classSeat}%` }
+          classSeat: { [Op.iLike]: `${classSeat}%` },
+          total: { [Op.gte]: parseInt(total) },
+          '$flight.departureDate$': { [Op.iLike]: `%${departureDate}` },
+          '$flight.arrivalDate$': { [Op.iLike]: `%${arrivalDate}` }
         }
       })
 
