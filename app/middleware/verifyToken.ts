@@ -6,7 +6,10 @@ const verifyToken = (
   res: typeof Response,
   next: typeof NextFunction
 ): any | typeof Response => {
-  const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
+  let refreshToken = req?.cookies?.refreshToken
+  if (refreshToken === undefined) {
+    refreshToken = req.body.refreshToken
+  }
   console.log('Refresh Token di Bawah')
   console.log(refreshToken)
   if (refreshToken === undefined) {

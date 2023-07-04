@@ -257,7 +257,10 @@ async function login (
   next: typeof NextFunction
 ): Promise<any> {
   const { identifier, password } = req.body
-  let refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
+  let refreshToken = req?.cookies?.refreshToken
+  if (refreshToken === undefined) {
+    refreshToken = req.body.refreshToken
+  }
 
   try {
     if (refreshToken !== '' && refreshToken !== undefined) {
@@ -404,7 +407,10 @@ async function logout (
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
+    let refreshToken = req?.cookies?.refreshToken
+    if (refreshToken === undefined) {
+      refreshToken = req.body.refreshToken
+    }
     if (refreshToken === undefined) {
       return res.status(400).json({
         status: 'FAILED',
@@ -440,7 +446,10 @@ async function refreshAccessToken (
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
+    let refreshToken = req?.cookies?.refreshAccessToken
+    if (refreshToken === undefined) {
+      refreshToken = req.body.refreshToken
+    }
     if (refreshToken === undefined) {
       return res.status(401).json({
         status: 'FAILED',
