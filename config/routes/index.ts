@@ -18,7 +18,6 @@ const {
   login,
   logout,
   getUserById,
-  refreshAccessToken,
   resendOtp,
   updateUser,
   forgotPassword,
@@ -49,7 +48,7 @@ router.get(
 
 router.get('/api/v1/users', usersList)
 router.get('/api/v1/profile', verifyToken, getUserById)
-router.get('/api/v1/token', refreshAccessToken)
+
 router.post('/api/v1/register', registerUsers)
 router.post('/api/v1/resend-otp', resendOtp)
 router.post('/api/v1/verify', verifyEmail)
