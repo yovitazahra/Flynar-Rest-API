@@ -27,7 +27,8 @@ const {
 const verifyToken = require('../../app/middleware/verifyToken')
 const {
   createCheckout,
-  getCheckouts
+  getCheckouts,
+  payCheckout
 } = require('../../app/controllers/checkoutsController')
 
 const {
@@ -71,6 +72,7 @@ router.get('/api/v1/tickets/:id', ticketDetail)
 // checkouts
 router.post('/api/v1/checkout', verifyToken, createCheckout)
 router.get('/api/v1/checkouts', verifyToken, getCheckouts)
+router.put('/api/v1/checkout/pay', verifyToken, payCheckout)
 
 // notification
 router.get('/api/v1/notification', verifyToken, getNotifications)

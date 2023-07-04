@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 const { userTransformer } = require('../utils/userTransformer')
 
-async function usersList (
+async function usersList(
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
@@ -26,7 +26,7 @@ async function usersList (
   }
 }
 
-async function getUserById (
+async function getUserById(
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
@@ -57,7 +57,7 @@ async function getUserById (
   }
 }
 
-async function registerUsers (
+async function registerUsers(
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -102,7 +102,7 @@ async function registerUsers (
   }
 }
 
-async function resendOtp (
+async function resendOtp(
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -161,7 +161,7 @@ async function resendOtp (
   }
 }
 
-async function findUserByEmail (
+async function findUserByEmail(
   email: string
 ): Promise<boolean | Record<string, any>> {
   const user = await Users.findOne({
@@ -170,7 +170,7 @@ async function findUserByEmail (
   return user
 }
 
-async function createUser (
+async function createUser(
   name: string,
   email: string,
   password: string,
@@ -209,7 +209,7 @@ async function createUser (
   }
 }
 
-async function verifyEmail (
+async function verifyEmail(
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -227,7 +227,7 @@ async function verifyEmail (
   })
 }
 
-async function validateRegisterUser (
+async function validateRegisterUser(
   email: string,
   otp: number
 ): Promise<typeof Response> {
@@ -247,11 +247,11 @@ async function validateRegisterUser (
   return [200, 'Verifikasi Berhasil']
 }
 
-async function isEmailValid (email: string): Promise<Record<string, any>> {
+async function isEmailValid(email: string): Promise<Record<string, any>> {
   return emailValidator.validate(email)
 }
 
-async function login (
+async function login(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -277,38 +277,47 @@ async function login (
       const token = authHeader?.split(' ')[1]
 
       if (token !== null || token !== undefined) {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
-          if (err !== null) {
-            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
-              if (err instanceof Error) {
-                res.cookie('refreshToken', '')
-                return res.status(401).json({
-                  status: 'FAILED',
-                  message: 'Sesi Login Expired, Silahkan Login Ulang'
-                })
-              }
+        jwt.verify(
+          token,
+          process.env.ACCESS_TOKEN_SECRET,
+          (err: Error, decoded: any) => {
+            if (err !== null) {
+              jwt.verify(
+                refreshToken,
+                process.env.REFRESH_TOKEN_SECRET,
+                (err: Error) => {
+                  if (err instanceof Error) {
+                    res.cookie('refreshToken', '')
+                    return res.status(401).json({
+                      status: 'FAILED',
+                      message: 'Sesi Login Expired, Silahkan Login Ulang'
+                    })
+                  }
 
-              const { id, email } = user
-              const accessToken = jwt.sign(
-                { id, email },
-                process.env.ACCESS_TOKEN_SECRET,
-                {
-                  expiresIn: '1d'
+                  const { id, email } = user
+                  const accessToken = jwt.sign(
+                    { id, email },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    {
+                      expiresIn: '1d'
+                    }
+                  )
+                  res.status(200).json({
+                    status: 'SUCCESS',
+                    accessToken,
+                    refreshToken
+                  })
                 }
               )
+            } else {
               res.status(200).json({
                 status: 'SUCCESS',
-                accessToken
+                message: 'Anda Sudah Login',
+                accessToken: token
               })
-            })
-          } else {
-            res.status(200).json({
-              status: 'SUCCESS',
-              message: 'Anda Sudah Login',
-              accessToken: token
-            })
+            }
           }
-        })
+        )
       }
     } else if (
       identifier === undefined ||
@@ -373,7 +382,8 @@ async function login (
           })
           res.status(200).json({
             status: 'SUCCESS',
-            accessToken
+            accessToken,
+            refreshToken
           })
         }
       } else {
@@ -388,7 +398,7 @@ async function login (
   }
 }
 
-async function logout (
+async function logout(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -424,7 +434,7 @@ async function logout (
   }
 }
 
-async function refreshAccessToken (
+async function refreshAccessToken(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -476,7 +486,7 @@ async function refreshAccessToken (
   }
 }
 
-async function updateUser (
+async function updateUser(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -526,7 +536,7 @@ async function updateUser (
   }
 }
 
-async function forgotPassword (
+async function forgotPassword(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -544,7 +554,11 @@ async function forgotPassword (
         })
       }
 
-      const token = jwt.sign({ id: user._id, email }, process.env.RESET_PASSWORD_SECRET, { expiresIn: '3m' })
+      const token = jwt.sign(
+        { id: user._id, email },
+        process.env.RESET_PASSWORD_SECRET,
+        { expiresIn: '3m' }
+      )
       const emailSended = await sendResetPasswordEmail({
         to: email,
         token
@@ -573,7 +587,7 @@ async function forgotPassword (
   }
 }
 
-async function resetPassword (
+async function resetPassword(
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -595,23 +609,27 @@ async function resetPassword (
         })
       }
 
-      jwt.verify(token, process.env.RESET_PASSWORD_SECRET, async (err: Error, decoded: any) => {
-        if (err === null) {
-          const hashPassword = await bcrypt.hash(password, 10)
-          user.password = hashPassword
-          user.resetPasswordToken = ''
-          await user.save()
-          res.status(201).json({
-            status: 'SUCCESS',
-            message: 'Password Berhasil Diubah'
-          })
-        } else {
-          res.status(402).json({
-            status: 'FAILED',
-            message: 'Token Kadaluwarsa atau Invalid'
-          })
+      jwt.verify(
+        token,
+        process.env.RESET_PASSWORD_SECRET,
+        async (err: Error, decoded: any) => {
+          if (err === null) {
+            const hashPassword = await bcrypt.hash(password, 10)
+            user.password = hashPassword
+            user.resetPasswordToken = ''
+            await user.save()
+            res.status(201).json({
+              status: 'SUCCESS',
+              message: 'Password Berhasil Diubah'
+            })
+          } else {
+            res.status(402).json({
+              status: 'FAILED',
+              message: 'Token Kadaluwarsa atau Invalid'
+            })
+          }
         }
-      })
+      )
     } else {
       res.status(404).json({
         status: 'FAILED',
