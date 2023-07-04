@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 const { userTransformer } = require('../utils/userTransformer')
 
-async function usersList(
+async function usersList (
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
@@ -26,7 +26,7 @@ async function usersList(
   }
 }
 
-async function getUserById(
+async function getUserById (
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
@@ -57,7 +57,7 @@ async function getUserById(
   }
 }
 
-async function registerUsers(
+async function registerUsers (
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -102,7 +102,7 @@ async function registerUsers(
   }
 }
 
-async function resendOtp(
+async function resendOtp (
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -161,7 +161,7 @@ async function resendOtp(
   }
 }
 
-async function findUserByEmail(
+async function findUserByEmail (
   email: string
 ): Promise<boolean | Record<string, any>> {
   const user = await Users.findOne({
@@ -170,7 +170,7 @@ async function findUserByEmail(
   return user
 }
 
-async function createUser(
+async function createUser (
   name: string,
   email: string,
   password: string,
@@ -209,7 +209,7 @@ async function createUser(
   }
 }
 
-async function verifyEmail(
+async function verifyEmail (
   req: typeof Request,
   res: typeof Response
 ): Promise<typeof Response> {
@@ -227,7 +227,7 @@ async function verifyEmail(
   })
 }
 
-async function validateRegisterUser(
+async function validateRegisterUser (
   email: string,
   otp: number
 ): Promise<typeof Response> {
@@ -247,17 +247,17 @@ async function validateRegisterUser(
   return [200, 'Verifikasi Berhasil']
 }
 
-async function isEmailValid(email: string): Promise<Record<string, any>> {
+async function isEmailValid (email: string): Promise<Record<string, any>> {
   return emailValidator.validate(email)
 }
 
-async function login(
+async function login (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
 ): Promise<any> {
   const { identifier, password } = req.body
-  let refreshToken = req?.cookies?.refreshToken
+  let refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
 
   try {
     if (refreshToken !== '' && refreshToken !== undefined) {
@@ -398,13 +398,13 @@ async function login(
   }
 }
 
-async function logout(
+async function logout (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    const refreshToken = req?.cookies?.refreshToken
+    const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
     if (refreshToken === undefined) {
       return res.status(400).json({
         status: 'FAILED',
@@ -434,13 +434,13 @@ async function logout(
   }
 }
 
-async function refreshAccessToken(
+async function refreshAccessToken (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    const refreshToken = req?.cookies?.refreshToken
+    const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
     if (refreshToken === undefined) {
       return res.status(401).json({
         status: 'FAILED',
@@ -486,7 +486,7 @@ async function refreshAccessToken(
   }
 }
 
-async function updateUser(
+async function updateUser (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -536,7 +536,7 @@ async function updateUser(
   }
 }
 
-async function forgotPassword(
+async function forgotPassword (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -587,7 +587,7 @@ async function forgotPassword(
   }
 }
 
-async function resetPassword(
+async function resetPassword (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
