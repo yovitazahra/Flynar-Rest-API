@@ -30,12 +30,10 @@ async function getUserById(
   req: typeof Request,
   res: typeof Response
 ): Promise<any> {
-  const refreshToken = req?.cookies?.refreshToken
+  const email = req.email
   try {
     const userRecord = await Users.findOne({
-      where: {
-        refreshToken
-      }
+      where: { email }
     })
     if (userRecord === null) {
       return res.status(404).json({
@@ -338,7 +336,6 @@ async function logout(
     console.log(error)
   }
 }
-
 async function updateUser(
   req: typeof Request,
   res: typeof Response,
@@ -346,7 +343,7 @@ async function updateUser(
 ): Promise<any> {
   try {
     const { name = '', phoneNumber = '' } = req.body
-    const refreshToken = req?.cookies?.refreshToken
+    const email = req.email
     if (name === '' || phoneNumber === '') {
       return res.status(400).json({
         status: 'SUCCESS',
@@ -366,7 +363,7 @@ async function updateUser(
         phoneNumber
       },
       {
-        where: { refreshToken }
+        where: { email }
       }
     )
     if (data === null) {
