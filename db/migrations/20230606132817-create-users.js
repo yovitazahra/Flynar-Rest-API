@@ -34,10 +34,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
-      refreshToken: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
+      // refreshToken: {
+      //   type: Sequelize.STRING,
+      //   allowNull: true
+      // },
       resetPasswordToken: {
         type: Sequelize.STRING,
         allowNull: true
