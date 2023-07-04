@@ -257,72 +257,8 @@ async function login(
   next: typeof NextFunction
 ): Promise<any> {
   const { identifier, password } = req.body
-  // let refreshToken = req?.cookies?.refreshToken
-  // if (refreshToken === undefined) {
-  //   refreshToken = req.body.refreshToken
-  // }
 
   try {
-    // if (refreshToken !== '' && refreshToken !== undefined) {
-    const user = await Users.findAll(
-      // {where: { refreshToken }}
-    )
-
-    if (user[0] === undefined) {
-      res.cookie('refreshToken', '')
-      return res.status(401).json({
-        status: 'FAILED',
-        message: 'Sesi Login Expired, Silahkan Login Ulang'
-      })
-    }
-
-    const authHeader = req.headers.authorization
-    const token = authHeader?.split(' ')[1]
-
-    if (token !== null || token !== undefined) {
-      jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err: Error, decoded: any) => {
-          if (err !== null) {
-            jwt.verify(
-              // refreshToken,
-              // process.env.REFRESH_TOKEN_SECRET,
-              (err: Error) => {
-                if (err instanceof Error) {
-                  res.cookie('refreshToken', '')
-                  return res.status(401).json({
-                    status: 'FAILED',
-                    message: 'Sesi Login Expired, Silahkan Login Ulang'
-                  })
-                }
-
-                const { id, email } = user
-                const accessToken = jwt.sign(
-                  { id, email },
-                  process.env.ACCESS_TOKEN_SECRET,
-                  {
-                    expiresIn: '1d'
-                  }
-                )
-                res.status(200).json({
-                  status: 'SUCCESS',
-                  accessToken,
-                  // refreshToken
-                })
-              }
-            )
-          } else {
-            res.status(200).json({
-              status: 'SUCCESS',
-              message: 'Anda Sudah Login',
-              accessToken: token
-            })
-          }
-        }
-      )
-    }
-    // } 
     if (
       identifier === undefined ||
       identifier === '' ||
@@ -362,32 +298,12 @@ async function login(
             { id: userId, email },
             process.env.ACCESS_TOKEN_SECRET,
             {
-              expiresIn: '1d'
+              expiresIn: '5d'
             }
           )
-          // refreshToken = jwt.sign(
-          //   { id: userId, email },
-          //   process.env.REFRESH_TOKEN_SECRET,
-          //   {
-          //     expiresIn: '30 days'
-          //   }
-          // )
-          // await Users.update(
-          //   { refreshToken },
-          //   {
-          //     where: {
-          //       id: userId
-          //     }
-          //   }
-          // )
-          // res.cookie('refreshToken', refreshToken, {
-          //   httpOnly: true,
-          //   maxAge: 24 * 60 * 60 * 1000
-          // })
           res.status(200).json({
             status: 'SUCCESS',
-            accessToken,
-            // refreshToken
+            accessToken
           })
         }
       } else {
@@ -408,38 +324,9 @@ async function logout(
   next: typeof NextFunction
 ): Promise<any> {
   try {
-    // let refreshToken = req?.cookies?.refreshToken
-    // if (refreshToken === undefined) {
-    //   refreshToken = req.body.refreshToken
-    // }
-    // if (refreshToken === undefined) {
-    //   return res.status(400).json({
-    //     status: 'FAILED',
-    //     message: 'Tidak Ada Aktivitas Login'
-    //   })
-    // }
-    // const user = await Users.findAll({
-    //   where: { refreshToken }
-    // })
-
-    // if (user[0] !== undefined) {
-    //   await Users.update(
-    //     { refreshToken: null },
-    //     {
-    //       where: { id: user[0].id }
-    //     }
-    //   )
-    // }
-    
-    // res.clearCookie('refreshToken')
-    // return res.status(200).json({
-    //   status: 'SUCCESS',
-    //   message: 'Logout Berhasil'
-    // })
-
     req.session.destroy((err: any) => {
       if (err) {
-        console.log(err);
+        console.log(err)
       } else {
         return res.status(200).json({
           status: 'SUCCESS',
@@ -451,61 +338,6 @@ async function logout(
     console.log(error)
   }
 }
-
-// async function refreshAccessToken(
-//   req: typeof Request,
-//   res: typeof Response,
-//   next: typeof NextFunction
-// ): Promise<any> {
-//   try {
-//     let refreshToken = req?.cookies?.refreshAccessToken
-//     if (refreshToken === undefined) {
-//       refreshToken = req.body.refreshToken
-//     }
-//     if (refreshToken === undefined) {
-//       return res.status(401).json({
-//         status: 'FAILED',
-//         message: 'Silahkan Login'
-//       })
-//     }
-
-//     const user = await Users.findAll({
-//       where: { refreshToken }
-//     })
-
-//     if (user[0] === undefined) {
-//       return res.status(404).json({
-//         status: 'FAILED',
-//         message: 'Akun Tidak Ditemukan'
-//       })
-//     }
-
-//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
-//       if (err instanceof Error) {
-//         res.cookie('refreshToken', '')
-//         return res.status(401).json({
-//           status: 'FAILED',
-//           message: 'Sesi Login Expired, Silahkan Login Ulang'
-//         })
-//       }
-
-//       const { id, email } = user[0]
-//       const accessToken = jwt.sign(
-//         { id, email },
-//         process.env.ACCESS_TOKEN_SECRET,
-//         {
-//           expiresIn: '1d'
-//         }
-//       )
-//       res.status(200).json({
-//         status: 'SUCCESS',
-//         accessToken
-//       })
-//     })
-//   } catch (err) {
-//     console.log(err)
-//   }
-// }
 
 async function updateUser(
   req: typeof Request,
@@ -662,7 +494,7 @@ async function resetPassword(
   }
 }
 
-export { }
+export {}
 
 module.exports = {
   usersList,
@@ -672,7 +504,6 @@ module.exports = {
   verifyEmail,
   login,
   logout,
-  // refreshAccessToken,
   updateUser,
   forgotPassword,
   resetPassword

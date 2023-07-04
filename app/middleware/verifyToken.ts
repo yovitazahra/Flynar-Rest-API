@@ -6,19 +6,6 @@ const verifyToken = (
   res: typeof Response,
   next: typeof NextFunction
 ): any | typeof Response => {
-  let refreshToken = req?.cookies?.refreshToken
-  if (refreshToken === undefined) {
-    refreshToken = req.body.refreshToken
-  }
-  console.log('Refresh Token di Bawah')
-  console.log(refreshToken)
-  if (refreshToken === undefined) {
-    return res.status(401).json({
-      status: 'FAILED',
-      message: 'Silahkan Login'
-    })
-  }
-
   const authHeader = req.headers.authorization
   const token = authHeader?.split(' ')[1]
 
@@ -29,18 +16,21 @@ const verifyToken = (
     })
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err: Error, decoded: any) => {
-    if (err !== null) {
-      res.cookie('refreshToken', '')
-      return res.status(401).json({
-        status: 'FAILED',
-        message: 'Sesi Login Expired, Silahkan Login Ulang'
-      })
+  jwt.verify(
+    token,
+    process.env.ACCESS_TOKEN_SECRET,
+    (err: Error, decoded: any) => {
+      if (err !== null) {
+        return res.status(401).json({
+          status: 'FAILED',
+          message: 'Sesi Login Expired, Silahkan Login Ulang'
+        })
+      }
+      req.email = decoded.email
+      req.id = decoded.id
+      next()
     }
-    req.email = decoded.email
-    req.id = decoded.id
-    next()
-  })
+  )
 }
 
 export {}
