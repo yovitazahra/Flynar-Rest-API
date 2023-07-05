@@ -10,11 +10,19 @@ const app = express()
 const port = process.env.PORT ?? 8001
 
 app.use(express.json())
-const corsOptions = {
-  origin: ['http://localhost:3000', 'https://flynar.vercel.app'],
-  optionSuccessStatus: 200
+const allowList = ['http://localhost:3000', 'https://flynar.vercel.app']
+
+const corsOptionsDelegate = function (req: any, callback: any): void {
+  let corsOptions
+  if (allowList.includes(req.header('Origin'))) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
-app.use(cors(corsOptions))
+
+app.use(cors(corsOptionsDelegate))
 app.use(cookieParser())
 app.set('trust proxy', true)
 
