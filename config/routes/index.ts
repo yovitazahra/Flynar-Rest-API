@@ -16,7 +16,6 @@ const {
   verifyEmail,
   usersList,
   login,
-  logout,
   getUserById,
   resendOtp,
   updateUser,
@@ -27,7 +26,8 @@ const verifyToken = require('../../app/middleware/verifyToken')
 const {
   createCheckout,
   getCheckouts,
-  payCheckout
+  payCheckout,
+  cancelCheckout
 } = require('../../app/controllers/checkoutsController')
 
 const {
@@ -56,7 +56,7 @@ router.post('/api/v1/login', login)
 router.put('/api/v1/profile/update', verifyToken, updateUser)
 router.put('/api/v1/forgot-password', forgotPassword)
 router.put('/api/v1/reset-password', resetPassword)
-router.delete('/api/v1/logout', logout)
+// router.delete('/api/v1/logout', logout)
 
 // flights
 router.get('/api/v1/flights', flightList)
@@ -72,6 +72,7 @@ router.get('/api/v1/tickets/:id', ticketDetail)
 router.post('/api/v1/checkout', verifyToken, createCheckout)
 router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 router.put('/api/v1/checkout/pay', verifyToken, payCheckout)
+router.put('/api/v1/checkout/cancel', verifyToken, cancelCheckout)
 
 // notification
 router.get('/api/v1/notification', verifyToken, getNotifications)

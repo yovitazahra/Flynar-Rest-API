@@ -23,7 +23,7 @@ const verifyToken = (
       if (err !== null) {
         return res.status(401).json({
           status: 'FAILED',
-          message: 'Sesi Login Expired, Silahkan Login Ulang'
+          message: 'Silahkan Login'
         })
       }
       req.email = decoded.email
