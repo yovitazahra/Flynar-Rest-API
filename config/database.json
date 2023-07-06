@@ -7,7 +7,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "url": "postgres://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
+    "url": "postgresql://postgres:lfp6rmfC4dvrFCny4eI9@containers-us-west-27.railway.app:5869/railway",
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
     "database": "railway",
@@ -15,7 +15,7 @@
     "dialect": "postgres"
   },
   "production": {
-    "url": "postgresql://postgres:VRd5G485z9NXuwpD83Jl@containers-us-west-171.railway.app:6513/railway",
+    "url": "postgresql://postgres:lfp6rmfC4dvrFCny4eI9@containers-us-west-27.railway.app:5869/railway",
     "username": "postgres",
     "password": "VRd5G485z9NXuwpD83Jl",
     "database": "railway",
