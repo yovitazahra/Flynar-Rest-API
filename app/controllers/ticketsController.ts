@@ -130,41 +130,41 @@ module.exports = {
       if (sortBy === 'price') { // harga termurah
         sortedData = await Tickets.findAll({
           limit: 100,
+          include: {model: Flights, as: 'flight'},
           order: [['price', 'ASC']]
         })
       } else if (sortBy === 'duration') { // durasi terpendek
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'duration', 'ASC']]
+          include: { model: Flights, as: 'flight' },
+          order: [['flight', 'duration', 'ASC']]
         })
       } else if (sortBy === 'departureDateStart') { // keberangkatan paling awal
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'departureDate', 'ASC']]
+          include: { model: Flights, as: 'flight' },
+          order: [['flight', 'departureDate', 'ASC']]
         })
       } else if (sortBy === 'departureDateEnd') { // keberangkatan paling akhir
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'departureDate', 'DESC']]
+          include: { model: Flights, as: 'flight' },
+          order: [['flight', 'departureDate', 'DESC']]
         })
       } else if (sortBy === 'arrivalDateStart') { // kedatangan paling awal
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'ASC']]
+          include: { model: Flights, as: 'flight' },
+          order: [['flight', 'arrivalDate', 'ASC']]
         })
       } else if (sortBy === 'arrivalDateEnd') { // kedatangan paling akhir
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'DESC']]
+          include: { model: Flights, as: 'flight' },
+          order: [['flight', 'arrivalDate', 'DESC']]
         })
       } else {
         sortedData = await Tickets.findAll({
-          include: [{ model: Flights }]
         })
       }
 
