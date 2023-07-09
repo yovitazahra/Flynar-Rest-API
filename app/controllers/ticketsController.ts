@@ -130,7 +130,7 @@ module.exports = {
       if (sortBy === 'price') { // harga termurah
         sortedData = await Tickets.findAll({
           limit: 100,
-          include: {model: Flights, as: 'flight'},
+          include: { model: Flights, as: 'flight' },
           order: [['price', 'ASC']]
         })
       } else if (sortBy === 'duration') { // durasi terpendek
