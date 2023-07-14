@@ -13,8 +13,8 @@ const generateOTP = (): number => {
 async function verifyOTP (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<typeof Response> {
   const { code } = req.query
   if (parseInt(req.app.locals.OTP) === parseInt(code)) {
-    req.app.locals.OTP = null // reset the OTP value
-    req.app.locals.resetSession = true // start session for reset password
+    req.app.locals.OTP = null
+    req.app.locals.resetSession = true
     return res.status(201).json({
       status: 'SUCCESS',
       message: 'Verify Successfully'

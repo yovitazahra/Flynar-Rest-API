@@ -21,8 +21,8 @@ async function usersList (
       status: 'SUCCESS',
       users: result
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -47,11 +47,11 @@ async function getUserById (
       status: 'SUCCESS',
       data: userTransformer(userRecord)
     })
-  } catch (err) {
-    if (err instanceof Error) {
+  } catch (error) {
+    if (error instanceof Error) {
       return res.status(500).json({
         status: 'FAILED',
-        message: err.message
+        message: error.message
       })
     }
   }
@@ -280,13 +280,13 @@ async function login (
         jwt.verify(
           token,
           process.env.ACCESS_TOKEN_SECRET,
-          (err: Error, decoded: any) => {
-            if (err !== null) {
+          (error: Error, decoded: any) => {
+            if (error !== null) {
               jwt.verify(
                 refreshToken,
                 process.env.REFRESH_TOKEN_SECRET,
-                (err: Error) => {
-                  if (err instanceof Error) {
+                (error: Error) => {
+                  if (error instanceof Error) {
                     res.cookie('refreshToken', '')
                     return res.status(401).json({
                       status: 'FAILED',
@@ -459,8 +459,8 @@ async function refreshAccessToken (
       })
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err: Error) => {
-      if (err instanceof Error) {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error: Error) => {
+      if (error instanceof Error) {
         res.cookie('refreshToken', '')
         return res.status(401).json({
           status: 'FAILED',
@@ -481,8 +481,8 @@ async function refreshAccessToken (
         accessToken
       })
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -526,11 +526,11 @@ async function updateUser (
       status: 'SUCCESS',
       message: 'Profil Berhasil Diperbarui'
     })
-  } catch (err) {
-    if (err instanceof Error) {
+  } catch (error) {
+    if (error instanceof Error) {
       return res.status(500).json({
         status: 'FAILED',
-        message: err.message
+        message: error.message
       })
     }
   }
@@ -612,8 +612,8 @@ async function resetPassword (
       jwt.verify(
         token,
         process.env.RESET_PASSWORD_SECRET,
-        async (err: Error, decoded: any) => {
-          if (err === null) {
+        async (error: Error, decoded: any) => {
+          if (error === null) {
             const hashPassword = await bcrypt.hash(password, 10)
             user.password = hashPassword
             user.resetPasswordToken = ''

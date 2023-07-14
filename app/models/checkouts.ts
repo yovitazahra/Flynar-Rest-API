@@ -77,11 +77,5 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       modelName: 'Checkouts'
     }
   )
-  // Checkouts.associate = function (models) {
-  //   Checkouts.belongsTo(models.Tickets, {
-  //     as: 'ticket',
-  //     foreignKey: 'ticketId'
-  //   })
-  // }
   return Checkouts
 }

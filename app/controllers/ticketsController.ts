@@ -25,8 +25,8 @@ module.exports = {
         total,
         tickets: result
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
       return res.status(500).json({
         status: 'FAILED',
         message: 'Kesalahan Pada Server'
@@ -59,8 +59,8 @@ module.exports = {
         status: 'SUCCESS',
         ticket: result
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
       return res.status(500).json({
         status: 'FAILED',
         message: 'Kesalahan Pada Server'
@@ -127,36 +127,36 @@ module.exports = {
       const sortBy = req.query.sortBy
       let sortedData
 
-      if (sortBy === 'price') { // harga termurah
+      if (sortBy === 'price') {
         sortedData = await Tickets.findAll({
           limit: 100,
           order: [['price', 'ASC']]
         })
-      } else if (sortBy === 'duration') { // durasi terpendek
+      } else if (sortBy === 'duration') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'duration', 'ASC']]
         })
-      } else if (sortBy === 'departureDateStart') { // keberangkatan paling awal
+      } else if (sortBy === 'departureDateStart') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'departureDate', 'ASC']]
         })
-      } else if (sortBy === 'departureDateEnd') { // keberangkatan paling akhir
+      } else if (sortBy === 'departureDateEnd') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'departureDate', 'DESC']]
         })
-      } else if (sortBy === 'arrivalDateStart') { // kedatangan paling awal
+      } else if (sortBy === 'arrivalDateStart') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'arrivalDate', 'ASC']]
         })
-      } else if (sortBy === 'arrivalDateEnd') { // kedatangan paling akhir
+      } else if (sortBy === 'arrivalDateEnd') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],

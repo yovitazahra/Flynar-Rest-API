@@ -24,8 +24,8 @@ module.exports = {
         total,
         flights: result
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
       return res.status(500).json({
         status: 'FAILED',
         message: 'Kesalahan Pada Server'
@@ -58,8 +58,8 @@ module.exports = {
         status: 'SUCCESS',
         flight: result
       })
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
       return res.status(500).json({
         status: 'FAILED',
         message: 'Kesalahan Pada Server'

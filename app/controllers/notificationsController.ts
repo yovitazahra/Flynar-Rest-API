@@ -6,8 +6,12 @@ async function getNotifications (
   res: typeof Response
 ): Promise<any> {
   try {
-    const data = await Notifications.findAll({ where: { userId: req.id } })
-
+    const data = await Notifications.findAll({
+      where: { userId: req.id },
+      attributes: {
+        exclude: ['id', 'userId', 'createdAt', 'updatedAt']
+      }
+    })
     res.status(200).json({
       status: 'SUCCESS',
       data

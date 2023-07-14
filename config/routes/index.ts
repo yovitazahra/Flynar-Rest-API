@@ -12,9 +12,9 @@ const {
   filterFlightTickets
 } = require('../../app/controllers/ticketsController')
 const {
+  // usersList,
   registerUsers,
   verifyEmail,
-  usersList,
   login,
   logout,
   getUserById,
@@ -28,13 +28,14 @@ const verifyToken = require('../../app/middleware/verifyToken')
 const {
   createCheckout,
   getCheckouts,
-  payCheckout
+  payCheckout,
+  cancelCheckout
 } = require('../../app/controllers/checkoutsController')
 
 const {
   getNotifications,
-  readNotification,
-  createNotification
+  readNotification
+  // createNotification
 } = require('../../app/controllers/notificationsController')
 
 router.get(
@@ -47,7 +48,7 @@ router.get(
   }
 )
 
-router.get('/api/v1/users', usersList)
+// router.get('/api/v1/users', usersList)
 router.get('/api/v1/profile', verifyToken, getUserById)
 router.get('/api/v1/token', refreshAccessToken)
 router.post('/api/v1/register', registerUsers)
@@ -73,11 +74,12 @@ router.get('/api/v1/tickets/:id', ticketDetail)
 router.post('/api/v1/checkout', verifyToken, createCheckout)
 router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 router.put('/api/v1/checkout/pay', verifyToken, payCheckout)
+router.put('/api/v1/checkout/cancel', verifyToken, cancelCheckout)
 
 // notification
 router.get('/api/v1/notification', verifyToken, getNotifications)
 router.put('/api/v1/notification', verifyToken, readNotification)
-router.post('/api/v1/notification', verifyToken, createNotification)
+// router.post('/api/v1/notification', verifyToken, createNotification)
 export {}
 
 module.exports = router

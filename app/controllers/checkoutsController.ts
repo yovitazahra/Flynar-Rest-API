@@ -385,7 +385,6 @@ async function cancelCheckout (
         where: { id: parseInt(ticketIds[i]) }
       })
 
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       selectedTicket.total += selectedCheckout.total
       const availableSeats = selectedTicket.availableSeat.split(',')
 
