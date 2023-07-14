@@ -6,7 +6,7 @@ const verifyToken = (
   res: typeof Response,
   next: typeof NextFunction
 ): any | typeof Response => {
-  const refreshToken = req?.cookies?.refreshToken ?? req.body.refreshToken
+  const refreshToken = req?.cookies?.refreshToken
   if (refreshToken === undefined) {
     return res.status(401).json({
       status: 'FAILED',
