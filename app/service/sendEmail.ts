@@ -49,8 +49,7 @@ const sendResetPasswordEmail = async (params: { to: string, token: string }): Pr
           style="max-width: 90%; margin: auto; padding-top: 20px"
         >
           <h2>Reset Password Flynar.</h2>
-          <p>Here is your token for update password</p>
-          <p style="margin-bottom: 30px;">${params.token}</p>
+          <p>Follow this <a href="http://localhost:3000/reset-password?token=${params.token}">link</a> for continue reset your password</p>
       </div>
       `
     })
