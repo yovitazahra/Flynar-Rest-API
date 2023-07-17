@@ -42,7 +42,7 @@ const sendResetPasswordEmail = async (params: { to: string, token: string }): Pr
     const info = await transporter.sendMail({
       from: MAIL_SETTINGS.auth.user,
       to: params.to,
-      subject: 'Flynar Reset Password Token',
+      subject: 'Flynar Reset Password Link',
       html: `
         <div
           class="container"
