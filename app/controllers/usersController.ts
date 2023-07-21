@@ -304,8 +304,7 @@ async function login (
                   )
                   res.status(200).json({
                     status: 'SUCCESS',
-                    accessToken,
-                    refreshToken
+                    accessToken
                   })
                 }
               )
@@ -382,8 +381,7 @@ async function login (
           })
           res.status(200).json({
             status: 'SUCCESS',
-            accessToken,
-            refreshToken
+            accessToken
           })
         }
       } else {
