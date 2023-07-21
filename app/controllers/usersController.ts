@@ -553,7 +553,7 @@ async function forgotPassword (
       }
 
       const token = jwt.sign(
-        { id: user._id, email },
+        { id: user.id, email },
         process.env.RESET_PASSWORD_SECRET,
         { expiresIn: '3m' }
       )
