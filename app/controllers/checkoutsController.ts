@@ -153,7 +153,7 @@ async function createCheckout (
       await selectedTicket.save()
     }
 
-    await Checkouts.create({
+    const response = await Checkouts.create({
       fullName,
       familyName,
       phoneNumber,
@@ -179,7 +179,8 @@ async function createCheckout (
 
     res.status(201).json({
       status: 'SUCCESS',
-      message: 'Transaksi Dibuat'
+      message: 'Transaksi Dibuat',
+      id: response.dataValues.id
     })
   } catch (error: any) {
     res.status(400).json({
