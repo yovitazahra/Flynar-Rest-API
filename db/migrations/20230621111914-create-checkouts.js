@@ -11,18 +11,19 @@ module.exports = {
       },
       fullName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       familyName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       phoneNumber: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       price: {
         type: Sequelize.INTEGER,
@@ -50,15 +51,15 @@ module.exports = {
       },
       departureSeat: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       returnSeat: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       passengersData: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: true
       },
       createdAt: {
         allowNull: false,

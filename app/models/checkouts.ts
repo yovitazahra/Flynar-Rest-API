@@ -22,18 +22,19 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       },
       fullName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       familyName: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: true
       },
       phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       price: {
         type: DataTypes.INTEGER,
@@ -61,15 +62,15 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
       },
       departureSeat: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       returnSeat: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       passengersData: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
       }
     },
     {
