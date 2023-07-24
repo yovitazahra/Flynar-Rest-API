@@ -294,7 +294,7 @@ async function login (
                     })
                   }
 
-                  const { id, email } = user
+                  const { id, email } = user[0]
                   const accessToken = jwt.sign(
                     { id, email },
                     process.env.ACCESS_TOKEN_SECRET,
