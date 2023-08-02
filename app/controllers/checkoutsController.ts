@@ -3,7 +3,56 @@ const { Request, Response, NextFunction } = require('express')
 const { Tickets, Checkouts, Flights, Notifications } = require('../models/index')
 const formatAvailableSeats = require('../utils/formatAvailableSeats')
 
-async function createCheckout (
+async function createCheckoutFromHomePage (
+  req: typeof Request,
+  res: typeof Response,
+  next: typeof NextFunction
+): Promise<any> {
+  const {
+    fullName = '',
+    familyName = '',
+    phoneNumber = '',
+    email = '',
+    price = 0,
+    total = 0,
+    isRoundTrip = false,
+    ticketId = '',
+    departureSeat = '',
+    returnSeat = '',
+    passengersData = ''
+  } = req.body
+
+  try {
+    const response = await Checkouts.create({
+      fullName,
+      familyName,
+      phoneNumber,
+      email,
+      price,
+      total,
+      status: 'Unpaid',
+      isRoundTrip,
+      ticketId,
+      departureSeat,
+      returnSeat,
+      passengersData,
+      userId: req.id
+    })
+
+    res.status(201).json({
+      status: 'SUCCESS',
+      message: 'Transaksi Dibuat',
+      id: response.dataValues.id
+    })
+  } catch (error: any) {
+    res.status(400).json({
+      status: 'FAILED',
+      message: error.message
+    })
+  }
+}
+
+async function finishCheckout (
   req: typeof Request,
   res: typeof Response,
   next: typeof NextFunction
@@ -485,4 +534,4 @@ async function payCheckout (
 }
 
 export {}
-module.exports = { createCheckout, getCheckouts, cancelCheckout, payCheckout }
+module.exports = { createCheckoutFromHomePage, finishCheckout, getCheckouts, cancelCheckout, payCheckout }

@@ -26,7 +26,8 @@ const {
 } = require('../../app/controllers/usersController')
 const verifyToken = require('../../app/middleware/verifyToken')
 const {
-  createCheckout,
+  createCheckoutFromHomePage,
+  finishCheckout,
   getCheckouts,
   payCheckout,
   cancelCheckout
@@ -71,7 +72,8 @@ router.get('/api/v1/tickets', ticketList)
 router.get('/api/v1/tickets/:id', ticketDetail)
 
 // checkouts
-router.post('/api/v1/checkout', verifyToken, createCheckout)
+router.post('/api/v1/checkout/homepage', verifyToken, createCheckoutFromHomePage)
+router.post('/api/v1/checkout/finish', verifyToken, finishCheckout)
 router.get('/api/v1/checkouts', verifyToken, getCheckouts)
 router.put('/api/v1/checkout/pay', verifyToken, payCheckout)
 router.put('/api/v1/checkout/cancel', verifyToken, cancelCheckout)
