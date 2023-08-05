@@ -9,7 +9,8 @@ const {
   ticketList,
   ticketDetail,
   searchFlightTickets,
-  filterFlightTickets
+  filterFlightTickets,
+  departureCitySearchOptions
 } = require('../../app/controllers/ticketsController')
 const {
   // usersList,
@@ -64,6 +65,7 @@ router.delete('/api/v1/logout', logout)
 // flights
 router.get('/api/v1/flights', flightList)
 router.get('/api/v1/flights/:id', flightDetail)
+router.get('/api/v1/flights/cities/departure', departureCitySearchOptions)
 router.get('/api/v1/search', searchFlightTickets)
 router.get('/api/v1/filter', filterFlightTickets)
 

@@ -179,6 +179,31 @@ module.exports = {
         message: 'Kesalahan Pada Server'
       })
     }
+  },
+  departureCitySearchOptions: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+    try {
+      const cities: any[] = []
+      const result = await Flights.findAll({
+        attributes: ['departureCity']
+      })
+
+      for (let i = 0; i < result.length; i++) {
+        if (!(cities.includes(result[i].departureCity))) {
+          cities.push(result[i].departureCity)
+        }
+      }
+
+      return res.status(200).json({
+        status: 'SUCCESS',
+        data: cities.toString()
+      })
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        status: 'FAILED',
+        message: 'Kesalahan Pada Server'
+      })
+    }
   }
 }
 
