@@ -180,16 +180,30 @@ module.exports = {
       })
     }
   },
-  departureCitySearchOptions: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
+  citySearchOptions: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
+      const { direction } = req.body
       const cities: any[] = []
-      const result = await Flights.findAll({
-        attributes: ['departureCity']
-      })
 
-      for (let i = 0; i < result.length; i++) {
-        if (!(cities.includes(result[i].departureCity))) {
-          cities.push(result[i].departureCity)
+      if (direction === 'departure') {
+        const result = await Flights.findAll({
+          attributes: ['departureCity']
+        })
+
+        for (let i = 0; i < result.length; i++) {
+          if (!(cities.includes(result[i].departureCity))) {
+            cities.push(result[i].departureCity)
+          }
+        }
+      } else {
+        const result = await Flights.findAll({
+          attributes: ['arrivalCity']
+        })
+
+        for (let i = 0; i < result.length; i++) {
+          if (!(cities.includes(result[i].arrivalCity))) {
+            cities.push(result[i].arrivalCity)
+          }
         }
       }
 
