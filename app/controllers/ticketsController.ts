@@ -182,7 +182,7 @@ module.exports = {
   },
   citySearchOptions: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
     try {
-      const { direction } = req.body
+      const direction = req.params.direction
       const cities: any[] = []
 
       if (direction === 'departure') {
@@ -195,7 +195,7 @@ module.exports = {
             cities.push(result[i].departureCity)
           }
         }
-      } else {
+      } else if (direction === 'arrival') {
         const result = await Flights.findAll({
           attributes: ['arrivalCity']
         })

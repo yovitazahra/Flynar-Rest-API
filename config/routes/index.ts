@@ -65,7 +65,7 @@ router.delete('/api/v1/logout', logout)
 // flights
 router.get('/api/v1/flights', flightList)
 router.get('/api/v1/flights/:id', flightDetail)
-router.get('/api/v1/cities', citySearchOptions)
+router.get('/api/v1/cities/:direction', citySearchOptions)
 router.get('/api/v1/search', searchFlightTickets)
 router.get('/api/v1/filter', filterFlightTickets)
 
