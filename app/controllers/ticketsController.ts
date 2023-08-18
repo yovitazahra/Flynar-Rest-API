@@ -68,7 +68,7 @@ module.exports = {
     }
   },
   searchFlightTickets: async (req: typeof Request, res: typeof Response, next: typeof NextFunction): Promise<any> => {
-    const { departureCity = '', arrivalCity = '', classSeat = '', total = '1', departureDate = '', arrivalDate = '' }: Record<string, string> = req.query
+    const { departureCity = '', arrivalCity = '', classSeat = '', total = '1', departureDate = '', returnDate = '' }: Record<string, string> = req.query
     try {
       const data = await Tickets.findAll({
         limit: 100,
@@ -82,7 +82,7 @@ module.exports = {
           classSeat: { [Op.iLike]: `${classSeat}%` },
           total: { [Op.gte]: parseInt(total) },
           '$flight.departureDate$': { [Op.iLike]: `%${departureDate}` },
-          '$flight.arrivalDate$': { [Op.iLike]: `%${arrivalDate}` }
+          '$flight.returnDate$': { [Op.iLike]: `%${returnDate}` }
         }
       })
 
@@ -98,7 +98,7 @@ module.exports = {
           classSeat: { [Op.iLike]: `${classSeat}%` },
           total: { [Op.gte]: parseInt(total) },
           '$flight.departureDate$': { [Op.iLike]: `%${departureDate}` },
-          '$flight.arrivalDate$': { [Op.iLike]: `%${arrivalDate}` }
+          '$flight.returnDate$': { [Op.iLike]: `%${returnDate}` }
         }
       })
 
@@ -150,17 +150,17 @@ module.exports = {
           include: [{ model: Flights }],
           order: [[{ model: Flights }, 'departureDate', 'DESC']]
         })
-      } else if (sortBy === 'arrivalDateStart') {
+      } else if (sortBy === 'returnDateStart') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'ASC']]
+          order: [[{ model: Flights }, 'returnDate', 'ASC']]
         })
-      } else if (sortBy === 'arrivalDateEnd') {
+      } else if (sortBy === 'returnDateEnd') {
         sortedData = await Tickets.findAll({
           limit: 100,
           include: [{ model: Flights }],
-          order: [[{ model: Flights }, 'arrivalDate', 'DESC']]
+          order: [[{ model: Flights }, 'returnDate', 'DESC']]
         })
       } else {
         sortedData = await Tickets.findAll({

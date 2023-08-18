@@ -1,4 +1,4 @@
-const dates = ['2023-07-06', '2023-07-07', '2023-07-08', '2023-07-09', '2023-07-10', '2023-07-11', '2023-07-12']
+const dates = ['2023-10-06', '2023-10-10', '2023-10-08', '2023-10-09', '2023-10-10', '2023-10-11', '2023-10-12']
 
 const airlines = [{
   name: 'Jet Air',
@@ -95,7 +95,7 @@ const flightsDummy = () => {
             item.departureCity = citiesAndAirports[k].city
             item.arrivalCity = citiesAndAirports[l].city
             item.departureDate = dates[i]
-            item.arrivalDate = dates[i]
+            item.returnDate = dates[i]
             item.departureTime = times[m].departureTime
             item.arrivalTime = times[m].arrivalTime
             item.duration = times[m].duration

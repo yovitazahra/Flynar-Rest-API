@@ -50,7 +50,7 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      arrivalDate: {
+      returnDate: {
         type: DataTypes.STRING,
         allowNull: false
       },
