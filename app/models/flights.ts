@@ -50,10 +50,6 @@ module.exports = (sequelize: typeof Sequelize, DataTypes: any): any => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      returnDate: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       departureTime: {
         type: DataTypes.STRING,
         allowNull: false

@@ -38,10 +38,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      returnDate: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       departureTime: {
         type: Sequelize.STRING,
         allowNull: false

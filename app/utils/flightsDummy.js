@@ -95,7 +95,6 @@ const flightsDummy = () => {
             item.departureCity = citiesAndAirports[k].city
             item.arrivalCity = citiesAndAirports[l].city
             item.departureDate = dates[i]
-            item.returnDate = dates[i]
             item.departureTime = times[m].departureTime
             item.arrivalTime = times[m].arrivalTime
             item.duration = times[m].duration
