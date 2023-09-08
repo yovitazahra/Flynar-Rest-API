@@ -1,24 +1,24 @@
 const dates = ['2023-10-06', '2023-10-07', '2023-10-08', '2023-10-09', '2023-10-10', '2023-10-11', '2023-10-12']
 
 const airlines = [{
-  name: 'Jet Air',
-  code: 'JT'
+  name: 'JetStar',
+  code: 'JQ'
 },
 {
-  name: 'Lion Air',
-  code: 'LA'
+  name: 'Batik Air',
+  code: 'ID'
 },
 {
   name: 'Garuda Indonesia',
-  code: 'GI'
+  code: 'GA'
 },
 {
-  name: 'AirAsia Indonesia',
-  code: 'AA'
+  name: 'AirAsia',
+  code: 'AK'
 },
 {
   name: 'Etihad Airways',
-  code: 'EA'
+  code: 'EY'
 }
   // { name: 'Batik Air', code: 'BA' },
   // { name: 'TransNusa', code: 'TN' },
@@ -90,6 +90,7 @@ const flightsDummy = () => {
             const code = airlines[j].code + '-' + (i < 10 ? '0' + i : i) + (j < 10 ? '0' + j : j) + (k < 10 ? '0' + k : k) + (l < 10 ? '0' + l : l) + (m < 10 ? '0' + m : m)
             item.flightCode = code
             item.airline = airlines[j].name
+            item.airlineCode = airlines[j].code
             item.departureAirport = citiesAndAirports[k].airport
             item.arrivalAirport = citiesAndAirports[l].airport
             item.departureCity = citiesAndAirports[k].city

@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      airlineCode: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       departureAirport: {
         type: Sequelize.STRING,
         allowNull: false
