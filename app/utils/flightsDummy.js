@@ -1,3 +1,5 @@
+const findArrivalDate = require('./findArrivalDate')
+
 const dates = ['2023-10-06', '2023-10-07', '2023-10-08', '2023-10-09', '2023-10-10', '2023-10-11', '2023-10-12']
 
 const airlines = [{
@@ -97,6 +99,7 @@ const flightsDummy = () => {
             item.arrivalCity = citiesAndAirports[l].city
             item.departureDate = dates[i]
             item.departureTime = times[m].departureTime
+            item.arrivalDate = findArrivalDate(dates[i], times[m].departureTime, times[m].arrivalTime)
             item.arrivalTime = times[m].arrivalTime
             item.duration = times[m].duration
             item.createdAt = new Date()
